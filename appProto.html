@@ -197,13 +197,38 @@
 			});
 			
 		}
-		EcwidApp.getAppStorage('env', function (env) {
+		EcwidApp.getAppStorage('env', function (res) {
 			//prints 'red' 
-			document.getElementById("env").value = env
+			document.getElementById("env").value = res
 		})
-		EcwidApp.getAppStorage('testPublicKey', function (testPublicKey) {
+		EcwidApp.getAppStorage('testPublicKey', function (res) {
 			//prints 'red' 
-			document.getElementById("testPublicKey").value = testPublicKey
+			document.getElementById("testPublicKey").value = res
+		})
+		EcwidApp.getAppStorage('testSecretKey', function (res) {
+			//prints 'red' 
+			document.getElementById("testSecretKey").value = res
+		})
+		EcwidApp.getAppStorage('livePublicKey', function (res) {
+			//prints 'red' 
+			document.getElementById("livePublicKey").value = res
+		})
+		EcwidApp.getAppStorage('liveSecretKey', function (res) {
+			//prints 'red' 
+			document.getElementById("liveSecretKey").value = res
+		})
+		EcwidApp.getAppStorage('logo', function (res) {
+			//prints 'red' 
+			document.getElementById("logo").value = res
+		})
+		EcwidApp.getAppStorage('country', function (res) {
+			//prints 'red' 
+			document.getElementById("country").value = res
+		})
+
+		EcwidApp.getAppStorage('pm', function (res) {
+			//prints 'red' 
+			document.getElementById("pm").value = res
 		})
 	</script>
 

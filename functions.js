@@ -23,6 +23,8 @@
 
 // Function to go to edit product label page
 
+
+
 function showEditPage(elementClass){
 	document.querySelector('.main').style.display = 'none';
 	document.querySelector(elementClass).style.display = 'block';

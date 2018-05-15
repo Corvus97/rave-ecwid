@@ -197,6 +197,14 @@
 			});
 			
 		}
+		EcwidApp.getAppStorage('env', function (env) {
+			//prints 'red' 
+			document.getElementById("env").value = env
+		})
+		EcwidApp.getAppStorage('testPublicKey', function (testPublicKey) {
+			//prints 'red' 
+			document.getElementById("testPublicKey").value = testPublicKey
+		})
 	</script>
 
 	</div>

@@ -28,3 +28,7 @@ select.form-control,
 .fieldset .field--focus {
   border: 0;
 }
+
+#alert {
+  display: none;
+}

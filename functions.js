@@ -21,133 +21,83 @@
       var appState = storeData.app_state;
     }
 
-// Function to go to edit product label page
 
 
+// Payment Settings
 
-function showEditPage(elementClass){
-	document.querySelector('.main').style.display = 'none';
-	document.querySelector(elementClass).style.display = 'block';
-	document.querySelector('.content-control-menu-nav').style.display = 'flex';
+// Set payment method title that matches merchant's payment method title set in Ecwid Control Panel. Use public token to get it from store profile
+
+var paymentMethodTitle = "Rave";
+
+// Custom styles for icons for our application
+
+var customStyleForPaymentIcons = document.createElement('style');
+customStyleForPaymentIcons.innerHTML = ".ecwid-PaymentMethodsBlockSvgCustom { display: inline-block; width: 40px; height: 26px; background-color: #fff !important; border: 1px solid #e2e2e2 !important;}";
+
+document.querySelector('body').appendChild(customStyleForPaymentIcons);
+
+// Set your custom icons or use your own URLs to icons here
+
+var iconsSrcList = [
+	'https://djqizrxa6f10j.cloudfront.net/apps/ecwid-api-docs/payment-icons-svg/paypal.svg',
+	'https://djqizrxa6f10j.cloudfront.net/apps/ecwid-api-docs/payment-icons-svg/mastercard.svg',
+	'https://djqizrxa6f10j.cloudfront.net/apps/ecwid-api-docs/payment-icons-svg/visa.svg',
+	'https://djqizrxa6f10j.cloudfront.net/apps/ecwid-api-docs/payment-icons-svg/amex.svg'
+]
+
+// Function to process current payment in the list
+
+var getPaymentContainer = function (label) {
+	var container = label.parentNode.getElementsByClassName('payment-methods');
+	if (container.length === 0) {
+		container = [document.createElement('div')];
+		container[0].className += 'payment-methods';
+		container[0].style.paddingLeft = '18px';
+		label.parentNode.appendChild(container[0]);
+	}
+	return container[0];
 }
 
+// Function to process the payment page
 
-// Function to retutn back to main app page after editing product label page
+var ecwidUpdatePaymentData = function () {
+	var optionsContainers = document.getElementsByClassName('ecwid-Checkout')[0].getElementsByClassName('ecwid-PaymentMethodsBlock-PaymentOption');
 
-function goBack(){
-	document.querySelector('.content-control-menu-nav').style.display = 'none';
-	document.querySelector('.main').style.display = 'block';
+	for (var i = 0; i < optionsContainers.length; i++) {
+		var radioContainer = optionsContainers[i].getElementsByClassName('gwt-RadioButton')[0];
+		var label = radioContainer.getElementsByTagName('label')[0];
 
-	// hide all separate pages for editing
-	for(i=0;i<document.querySelectorAll('.separate-editing-page').length; i++) {
-		document.querySelectorAll('.separate-editing-page')[i].style.display = 'none';
-	}
-}
+		// If current payment method title matches the one you need
 
-
-// Reads values from HTML page and sends them to application config
-// To fill values successfully, the input, select or textarea elements on a page must have 'data-name' and 'data-visibility' attributes set. See appProto.html for examples
-
-function readValuesFromPage(){
-
-	var applicationConfig = {
-		public: {},
-		private: {}
-	}
-
-	var allInputs = document.querySelectorAll('input, select, textarea');
-
-	for (i=0; i<allInputs.length; i++){
-		var fieldVisibility = allInputs[i].dataset.visibility;
-
-		if(fieldVisibility !== undefined){
-			if(allInputs[i].tagName == "INPUT"){
-					
-				if(allInputs[i].type == 'checkbox' || allInputs[i].type == 'radio'){
-					applicationConfig[fieldVisibility][allInputs[i].dataset.name] = String(allInputs[i].checked) ;
+		if (paymentMethodTitle && label.innerHTML.indexOf(paymentMethodTitle) !== -1) {
+			var container = getPaymentContainer(label);
+			if (
+				container
+				&& container.getElementsByTagName('img').length === 0
+			) {
+				for (i = 0; i < iconsSrcList.length; i++) {
+					var image = document.createElement('img');
+					image.setAttribute('src', iconsSrcList[i]);
+					image.setAttribute('class', 'ecwid-PaymentMethodsBlockSvgCustom');
+					if (container.children.length !== 0) {
+						image.style.marginLeft = '5px';
+					}
+					container.appendChild(image);
 				}
-				if(allInputs[i].type == 'text' || allInputs[i].type == 'number' || allInputs[i].type == 'date') {
-					applicationConfig[fieldVisibility][allInputs[i].dataset.name] = allInputs[i].value;	
-				}
-			}
-			if(allInputs[i].tagName == "SELECT" || allInputs[i].tagName == "TEXTAREA"){
-				applicationConfig[fieldVisibility][allInputs[i].dataset.name] = allInputs[i].value;
 			}
 		}
 	}
-
-	applicationConfig.public = JSON.stringify(applicationConfig.public);
-
-	return applicationConfig;
 }
 
-// Reads values from provided config and sets them for inputs on the page. 
-// To fill values successfully, the input, select or textarea elements must have 'data-name' and 'data-visibility' attributes set. See appProto.html for examples
 
-function setValuesForPage(applicationConfig){
+// Execute the code after the necessary page has loaded
 
-	var applicationConfigTemp = {
-		public: {},
-		private: {}
-	};
-
-	// for cases when we get existing users' data
-
-	if (applicationConfig.constructor === Array){
-		for (i=0; i < applicationConfig.length; i++) {
-			if (applicationConfig[i].key !== 'public'){
-				applicationConfigTemp.private[applicationConfig[i].key] = applicationConfig[i].value;
-			} else {
-				applicationConfigTemp[applicationConfig[i].key] = applicationConfig[i].value;
-			}
-		}
-		applicationConfig = applicationConfigTemp;
+Ecwid.OnPageLoaded.add(function (page) {
+	if (page.type == "CHECKOUT_PAYMENT_DETAILS") {
+		ecwidUpdatePaymentData();
 	}
+})
 
-	applicationConfig.public = JSON.parse(applicationConfig.public);
-	var allInputs = document.querySelectorAll('input, select, textarea');
-
-	// Set values from config for input, select, textarea elements
-	
-	for (i=0; i<allInputs.length; i++){
-		var fieldVisibility = allInputs[i].dataset.visibility;
-
-		if(fieldVisibility !== undefined && applicationConfig[fieldVisibility][allInputs[i].dataset.name] !== undefined){
-			if(allInputs[i].tagName == "INPUT"){
-
-				if(allInputs[i].type == 'checkbox' || allInputs[i].type == 'radio'){
-					allInputs[i].checked = (applicationConfig[fieldVisibility][allInputs[i].dataset.name] == "true");
-					checkFieldChange(allInputs[i]);
-				}
-				if(allInputs[i].type == 'text' || allInputs[i].type == 'number' || allInputs[i].type == 'date') {
-					allInputs[i].value = applicationConfig[fieldVisibility][allInputs[i].dataset.name];
-					checkFieldChange(allInputs[i]);
-				}
-			}
-			if(allInputs[i].tagName == "SELECT" || allInputs[i].tagName == "TEXTAREA"){
-				allInputs[i].value = applicationConfig[fieldVisibility][allInputs[i].dataset.name];
-				checkFieldChange(allInputs[i]);
-			}
-		}
-	}	
-}
-
-// Default settings for new accounts
-
-var initialConfig = {
-	public: {
-		cashOnDelivery: "true",
-		condition: "NEW",
-		globalShippingRate: "true",
-		freeShippingRate: "false"
-	},
-	private: {
-		installed: "true",
-		instructionTitle: "crazyPotatoes"
-	}
-};
-
-initialConfig.public = JSON.stringify(initialConfig.public);
 
 // Executes when we have a new user install the app. It creates and sets the default data using Ecwid JS SDK and Application storage
 

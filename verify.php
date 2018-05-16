@@ -30,9 +30,6 @@ session_start();
 
   $resp = json_decode($response, true);
 
-  var_dump($resp);
-  die();
-
   $paymentStatus = $resp['data']['status'];
   $chargeResponsecode = $resp['data']['chargecode'];
   $chargeAmount = $resp['data']['amount'];

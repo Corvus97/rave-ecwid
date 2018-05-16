@@ -1,5 +1,5 @@
 <?php
-// session_start();
+session_start();
 function getEcwidPayload($app_secret_key, $data)
 {
   // Get the encryption key (16 first bytes of the app's client_secret key)
@@ -75,12 +75,12 @@ $phone = $result->cart->order->billingPerson->phone;
 $ref = $result->cart->order->referenceTransactionId;
 
 
-// $_SESSION["secretKey"] = $secretKey;
-// $_SESSION["storeId"] = $result->storeId;
-// $_SESSION["token"] = $result->token;
-// $_SESSION["total"] = $total;
-// $_SESSION["currency"] = $currency;
-// $_SESSION["returnUrl"] = $result->returnUrl;;
+$_SESSION["secretKey"] = $secretKey;
+$_SESSION["storeId"] = $result->storeId;
+$_SESSION["token"] = $result->token;
+$_SESSION["total"] = $total;
+$_SESSION["currency"] = $currency;
+$_SESSION["returnUrl"] = $result->returnUrl;
 
 ?>
 

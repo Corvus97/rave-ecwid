@@ -43,8 +43,6 @@ $data = getEcwidPayload($client_secret, $ecwid_payload);
 $json_string = json_encode($data, JSON_PRETTY_PRINT);
 $result = json_decode(json_encode($data), false);
 
-var_dump($result);
-die();
 
 if ($result->merchantAppSettings->env != "live") {
   $secretKey = $result->merchantAppSettings->testSecretKey;
@@ -78,7 +76,11 @@ $ref = $result->cart->order->referenceTransactionId;
 
 
 $_SESSION["secretKey"] = $secretKey;
-$_SESSION["storeId"] = "cat";
+$_SESSION["storeId"] = $result->storeId;
+$_SESSION["token"] = $result->token;
+$_SESSION["total"] = $total;
+$_SESSION["currency"] = $currency;
+$_SESSION["returnUrl"] = $result->returnUrl;;
 
 ?>
 
@@ -96,7 +98,7 @@ $_SESSION["storeId"] = "cat";
   <input type="hidden" name="env" value="<?php echo $env; ?>"> <!-- live or staging -->
   <input type="hidden" name="publicKey" value="<?php echo $publicKey; ?>"> <!-- Put your public key here -->
   <input type="hidden" name="secretKey" value="<?php echo $secretKey; ?>"> <!-- Put your secret key here -->
-  <input type="hidden" name="successurl" value="<?php echo $result->returnUrl; ?>"> <!-- Put your success url here -->
+  <input type="hidden" name="successurl" value="https://rave.deatt.com/verify.php"> <!-- Put your success url here -->
   <input type="hidden" name="failureurl" value="<?php echo $result->returnUrl; ?>"> <!-- Put your failure url here -->
   <!-- <input type="submit" value="Submit" /> -->
 </form>

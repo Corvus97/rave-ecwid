@@ -52,10 +52,12 @@ session_start(); ?>
     $secretKey = $result->merchantAppSettings->testSecretKey;
     $publicKey = $result->merchantAppSettings->testPublicKey;
     $env = "staging";
+    $apiLink = "https://ravesandboxapi.flutterwave.com/";
   } else {
     $secretKey = $result->merchantAppSettings->liveSecretKey;
     $publicKey = $result->merchantAppSettings->livePublicKey;
     $env = "live";
+    $apiLink = "https://api.ravepay.co/";
   }
 
 
@@ -85,6 +87,7 @@ session_start(); ?>
   $_SESSION["total"] = $total;
   $_SESSION["currency"] = $currency;
   $_SESSION["returnUrl"] = $result->returnUrl;
+  $_SESSION["apiURL"] = $apiLink;
   ?>
 
   <form method="POST" action="https://hosted.flutterwave.com/processPayment.php" id="paymentForm">

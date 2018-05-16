@@ -82,12 +82,7 @@ $_SESSION["total"] = $total;
 $_SESSION["currency"] = $currency;
 $_SESSION["returnUrl"] = $result->returnUrl;;
 
-?>
-
-<!DOCTYPE html>
-<html>
-  <body>
-    <form method="POST" action="https://hosted.flutterwave.com/processPayment.php" id="paymentForm">
+   echo '<form method="POST" action="https://hosted.flutterwave.com/processPayment.php" id="paymentForm">
       <input type="hidden" name="amount" value="<?php echo $total; ?>" /> <!-- Replace the value with your transaction amount -->
       <input type="hidden" name="payment_method" value="<?php echo $paymentMethod; ?>" /> <!-- Can be card, account, both (optional) -->
       <input type="hidden" name="logo" value="<?php echo $logo; ?>" /> <!-- Replace the value with your logo url (optional) -->
@@ -113,6 +108,4 @@ $_SESSION["returnUrl"] = $result->returnUrl;;
       $(document).ready(function(){
         $("#paymentForm").submit();
     });
-    </script>
-  </body>
-</html>
+    </script>';

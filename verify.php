@@ -1,7 +1,6 @@
 <?php
 
 session_start();
-echo $_SESSION['apiURL'];
   $ref = $_GET['txref'];
   $amount = $_SESSION["total"]; //Correct Amount from Server
   $currency = $_SESSION["currency"]; //Correct Currency from Server
@@ -30,6 +29,9 @@ echo $_SESSION['apiURL'];
   curl_close($ch);
 
   $resp = json_decode($response, true);
+
+  var_dump($resp);
+  die();
 
   $paymentStatus = $resp['data']['status'];
   $chargeResponsecode = $resp['data']['chargecode'];

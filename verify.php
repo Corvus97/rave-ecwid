@@ -5,13 +5,12 @@ session_start();
   $amount = $_SESSION["total"]; //Correct Amount from Server
   $currency = $_SESSION["currency"]; //Correct Currency from Server
 
-  $query = array(
+$postdata = array(
     "SECKEY" => $_SESSION["secretKey"],
     "txref" => $ref,
     "include_payment_entity" => "1"
   );
 
-  $data_string = json_encode($query);
 
   // $ch = curl_init($_SESSION["apiURL"] . 'flwv3-pug/getpaidx/api/xrequery');
 $ch = curl_init();

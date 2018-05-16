@@ -22,7 +22,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $headers = [
   'Content-Type: application/json',
 ];
-
+curl_getinfo($ch);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 $request = curl_exec($ch);

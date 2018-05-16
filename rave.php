@@ -36,10 +36,11 @@ function aes_128_decrypt($key, $data)
 // Get payload from the POST and process it
 $ecwid_payload = $_POST['data'];
 $client_secret = "coLPrs9NN5mDgr6xqwUaNAF0PAqBF3Zr"; // this is a dummy value. Please place your app secret key here
-
+header('Content-Type: application/json');
 // The resulting JSON array will be in $result variable
 $result = getEcwidPayload($client_secret, $ecwid_payload);
-print_r($result);
+$json_string = json_encode($result, JSON_PRETTY_PRINT);
+echo $json_string;
 die();
 ?>
 

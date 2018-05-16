@@ -13,6 +13,9 @@ session_start();
 
   $data_string = json_encode($query);
 
+  var_dump($data_string);
+  die();
+
   $ch = curl_init($_SESSION["apiURL"] . 'flwv3-pug/getpaidx/api/xrequery');
   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
   curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);

@@ -36,33 +36,58 @@ function aes_128_decrypt($key, $data)
 // Get payload from the POST and process it
 $ecwid_payload = $_POST['data'];
 $client_secret = "coLPrs9NN5mDgr6xqwUaNAF0PAqBF3Zr"; // this is a dummy value. Please place your app secret key here
-header('Content-Type: application/json');
+// header('Content-Type: application/json');
 // The resulting JSON array will be in $result variable
-$result = getEcwidPayload($client_secret, $ecwid_payload);
-$json_string = json_encode($result, JSON_PRETTY_PRINT);
-$object = json_decode(json_encode($result), false);
-echo $json_string;
-die();
+$data = getEcwidPayload($client_secret, $ecwid_payload);
+$json_string = json_encode($data, JSON_PRETTY_PRINT);
+$result = json_decode(json_encode($data), false);
+
+if ($result->merchantAppSettings->env != "live") {
+  $secretKey = $result->merchantAppSettings->testSecretKey;
+  $publicKey = $result->merchantAppSettings->testPublicKey;
+  $env = "staging";
+} else {
+  $secretKey = $result->merchantAppSettings->liveSecretKey;
+  $publicKey = $result->merchantAppSettings->livePublicKey;
+  $env = "live";
+}
+
+$firstName = "";
+$lastName = "";
+
+$name = explode(" ", $result->cart->order->billingPerson->name);
+
+if ($name[1]) {
+  $lastName = $name[1];
+}
+
+$total = $result->cart->order->total;
+$paymentMethod = $result->merchantAppSettings->pm;
+$country = $result->merchantAppSettings->country;
+$logo = $result->merchantAppSettings->logo;
+$currency = $result->cart->currency;
+$email = $result->cart->order->email;
+$firstName = $name[0];
+$phone = $result->cart->order->billingPerson->phone;
+$ref = $result->cart->order->referenceTransactionId;
 
 ?>
 
 <form method="POST" action="https://hosted.flutterwave.com/processPayment.php" id="paymentForm">
-  <input type="hidden" name="amount" value="<?php echo $result->cart->order->total; ?>" /> <!-- Replace the value with your transaction amount -->
-  <input type="hidden" name="payment_method" value="both" /> <!-- Can be card, account, both (optional) -->
-  <input type="hidden" name="description" value="I Phone X, 100GB, 32GB RAM" /> <!-- Replace the value with your transaction description -->
-  <input type="hidden" name="logo" value="http://brandmark.io/logo-rank/random/apple.png" /> <!-- Replace the value with your logo url (optional) -->
-  <input type="hidden" name="title" value="Victor Store" /> <!-- Replace the value with your transaction title (optional) -->
-  <input type="hidden" name="country" value="NG" /> <!-- Replace the value with your transaction country -->
-  <input type="hidden" name="currency" value="<?php echo $result->cart->currency; ?>" /> <!-- Replace the value with your transaction currency -->
-  <input type="hidden" name="email" value="<?php echo $result->cart->order->email; ?>" /> <!-- Replace the value with your customer email -->
-  <input type="hidden" name="firstname" value="<?php echo $result->cart->order->billingPerson->name; ?>" /> <!-- Replace the value with your customer firstname (optional) -->
-  <input type="hidden" name="lastname"value="Olanipekun" /> <!-- Replace the value with your customer lastname (optional) -->
-  <input type="hidden" name="phonenumber" value="<?php echo $result->cart->order->billingPerson->phone; ?>" /> <!-- Replace the value with your customer phonenumber (optional if email is passes) -->
-  <input type="hidden" name="ref" value="MY_NAME_522a7f270abc8879" /> <!-- Replace the value with your transaction reference. It must be unique per transaction. You can delete this line if you want one to be generated for you. -->
-  <input type="hidden" name="env" value="staging"> <!-- live or staging -->
-  <input type="hidden" name="publicKey" value="FLWPUBK-8ba286388b24dbd6c20706def0b4ea23-X"> <!-- Put your public key here -->
-  <input type="hidden" name="secretKey" value="FLWSECK-c45e0f704619e673263844e584bba013-X"> <!-- Put your secret key here -->
-  <input type="hidden" name="successurl" value="http://request.lendlot.com/13b9gxc1?name=success"> <!-- Put your success url here -->
-  <input type="hidden" name="failureurl" value="http://request.lendlot.com/13b9gxc1?name=failed"> <!-- Put your failure url here -->
+  <input type="hidden" name="amount" value="<?php echo $total; ?>" /> <!-- Replace the value with your transaction amount -->
+  <input type="hidden" name="payment_method" value="<?php echo $paymentMethod; ?>" /> <!-- Can be card, account, both (optional) -->
+  <input type="hidden" name="logo" value="<?php echo $logo; ?>" /> <!-- Replace the value with your logo url (optional) -->
+  <input type="hidden" name="country" value="<?php echo $country; ?>" /> <!-- Replace the value with your transaction country -->
+  <input type="hidden" name="currency" value="<?php echo $currency; ?>" /> <!-- Replace the value with your transaction currency -->
+  <input type="hidden" name="email" value="<?php echo $email; ?>" /> <!-- Replace the value with your customer email -->
+  <input type="hidden" name="firstname" value="<?php echo $firstName; ?>" /> <!-- Replace the value with your customer firstname (optional) -->
+  <input type="hidden" name="lastname"value="<?php echo $lastName; ?>" /> <!-- Replace the value with your customer lastname (optional) -->
+  <input type="hidden" name="phonenumber" value="<?php echo $phone; ?>" /> <!-- Replace the value with your customer phonenumber (optional if email is passes) -->
+  <input type="hidden" name="ref" value="<?php echo $ref; ?>" />
+  <input type="hidden" name="env" value="<?php echo $env; ?>"> <!-- live or staging -->
+  <input type="hidden" name="publicKey" value="<?php echo $publicKey; ?>"> <!-- Put your public key here -->
+  <input type="hidden" name="secretKey" value="<?php echo $secretKey; ?>"> <!-- Put your secret key here -->
+  <input type="hidden" name="successurl" value="<?php echo $result->returnUrl; ?>"> <!-- Put your success url here -->
+  <input type="hidden" name="failureurl" value="<?php echo $result->returnUrl; ?>"> <!-- Put your failure url here -->
   <input type="submit" value="Submit" />
 </form>

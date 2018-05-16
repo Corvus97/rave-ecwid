@@ -80,10 +80,6 @@ session_start(); ?>
   $phone = $result->cart->order->billingPerson->phone;
   $ref = $result->cart->order->referenceTransactionId;
 
-  echo $apiLink;
-
-  die();
-
   $_SESSION["secretKey"] = $secretKey;
   $_SESSION["storeId"] = $result->storeId;
   $_SESSION["token"] = $result->token;

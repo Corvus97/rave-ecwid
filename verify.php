@@ -1,8 +1,7 @@
 <?php
 
 session_start();
-echo $_GET['apiURL'];
-if (isset($_GET['txref'])) {
+echo $_SESSION['apiURL'];
   $ref = $_GET['txref'];
   $amount = $_SESSION["total"]; //Correct Amount from Server
   $currency = $_SESSION["currency"]; //Correct Currency from Server
@@ -42,4 +41,3 @@ if (isset($_GET['txref'])) {
   } else {
     echo "Not Correct";
   }
-}

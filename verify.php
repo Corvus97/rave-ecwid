@@ -30,7 +30,7 @@ session_start();
 
   $resp = json_decode($response, true);
 
-  var_dump($resp);
+  var_dump($response);
   die();
 
   $paymentStatus = $resp['data']['status'];

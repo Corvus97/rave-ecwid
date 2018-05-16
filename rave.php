@@ -1,4 +1,5 @@
 <?php
+session_start();
 function getEcwidPayload($app_secret_key, $data)
 {
   // Get the encryption key (16 first bytes of the app's client_secret key)
@@ -36,11 +37,14 @@ function aes_128_decrypt($key, $data)
 // Get payload from the POST and process it
 $ecwid_payload = $_POST['data'];
 $client_secret = "coLPrs9NN5mDgr6xqwUaNAF0PAqBF3Zr"; // this is a dummy value. Please place your app secret key here
-// header('Content-Type: application/json');
+header('Content-Type: application/json');
 // The resulting JSON array will be in $result variable
 $data = getEcwidPayload($client_secret, $ecwid_payload);
 $json_string = json_encode($data, JSON_PRETTY_PRINT);
 $result = json_decode(json_encode($data), false);
+
+echo $json_data;
+die();
 
 if ($result->merchantAppSettings->env != "live") {
   $secretKey = $result->merchantAppSettings->testSecretKey;
@@ -51,6 +55,7 @@ if ($result->merchantAppSettings->env != "live") {
   $publicKey = $result->merchantAppSettings->livePublicKey;
   $env = "live";
 }
+
 
 $firstName = "";
 $lastName = "";
@@ -70,6 +75,10 @@ $email = $result->cart->order->email;
 $firstName = $name[0];
 $phone = $result->cart->order->billingPerson->phone;
 $ref = $result->cart->order->referenceTransactionId;
+
+
+$_SESSION["secretKey"] = $secretKey;
+$_SESSION["storeId"] = "cat";
 
 ?>
 

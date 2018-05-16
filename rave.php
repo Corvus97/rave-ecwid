@@ -40,8 +40,11 @@ header('Content-Type: application/json');
 // The resulting JSON array will be in $result variable
 $result = getEcwidPayload($client_secret, $ecwid_payload);
 $json_string = json_encode($result, JSON_PRETTY_PRINT);
-echo $json_string;
+echo $json_string->storeId;
 die();
+
+
+
 ?>
 
 <form method="POST" action="https://hosted.flutterwave.com/processPayment.php" id="paymentForm">

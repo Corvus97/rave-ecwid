@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+error_reporting(E_ALL);
   $ref = $_GET['txref'];
   $amount = $_SESSION["total"]; //Correct Amount from Server
   $currency = $_SESSION["currency"]; //Correct Currency from Server
@@ -22,7 +23,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $headers = [
   'Content-Type: application/json',
 ];
-curl_getinfo($ch);
+
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 $request = curl_exec($ch);

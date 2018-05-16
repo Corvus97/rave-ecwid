@@ -1,54 +1,45 @@
 <?php
 
 session_start();
-error_reporting(E_ALL);
   $ref = $_GET['txref'];
   $amount = $_SESSION["total"]; //Correct Amount from Server
   $currency = $_SESSION["currency"]; //Correct Currency from Server
 
-$postdata = array(
+  $query = array(
     "SECKEY" => $_SESSION["secretKey"],
     "txref" => $ref,
     "include_payment_entity" => "1"
   );
 
+  $data_string = json_encode($query);
 
-  // $ch = curl_init($_SESSION["apiURL"] . 'flwv3-pug/getpaidx/api/xrequery');
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/xrequery");
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postdata));  //Post Fields
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  $ch = curl_init($_SESSION["apiURL"] . 'flwv3-pug/getpaidx/api/xrequery');
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
 
-$headers = [
-  'Content-Type: application/json',
-];
+  $response = curl_exec($ch);
 
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+  $header = substr($response, 0, $header_size);
+  $body = substr($response, $header_size);
 
-$request = curl_exec($ch);
-$err = curl_error($ch);
+  curl_close($ch);
 
-if ($err) {
-	// there was an error contacting rave
-  die('Curl returned error: ' . $err);
-}
+  $resp = json_decode($response, true);
 
+  var_dump($resp);
+  die();
 
-curl_close($ch);
+  $paymentStatus = $resp['data']['status'];
+  $chargeResponsecode = $resp['data']['chargecode'];
+  $chargeAmount = $resp['data']['amount'];
+  $chargeCurrency = $resp['data']['currency'];
 
-$result = json_decode($request, true);
-
-if ('error' == $result->status) {
-  // there was an error from the API
-  die('API returned error: ' . $result->message);
-}
-
-if ('successful' == $result->data->status && '00' == $result->data->chargecode) {
-  // transaction was successful...
-  // please check other things like whether you already gave value for this ref
-  // If the amount and currency matches the expected amount and currency etc.
-  // if the email matches the customer who owns the product etc
-  // Give value
-  echo "success";
-}
+  if (($chargeResponsecode == "00" || $chargeResponsecode == "0") && ($chargeAmount == $amount) && ($chargeCurrency == $currency)) {
+     echo "Correct";
+  } else {
+    echo "Not Correct";
+  }

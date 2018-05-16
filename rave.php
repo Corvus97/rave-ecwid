@@ -43,7 +43,7 @@ $data = getEcwidPayload($client_secret, $ecwid_payload);
 $json_string = json_encode($data, JSON_PRETTY_PRINT);
 $result = json_decode(json_encode($data), false);
 
-echo $json_data;
+echo $json_string;
 die();
 
 if ($result->merchantAppSettings->env != "live") {

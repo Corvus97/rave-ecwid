@@ -40,10 +40,9 @@ $client_secret = "coLPrs9NN5mDgr6xqwUaNAF0PAqBF3Zr"; // this is a dummy value. P
 // The resulting JSON array will be in $result variable
 $result = getEcwidPayload($client_secret, $ecwid_payload);
 $json_string = json_encode($result, JSON_PRETTY_PRINT);
-echo $result->storeId;
+$object = json_decode(json_encode($result), false);
+echo $object->storeId;
 die();
-
-
 
 ?>
 

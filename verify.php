@@ -36,7 +36,21 @@ session_start();
   $chargeCurrency = $resp['data']['currency'];
 
   if (($chargeResponsecode == "00" || $chargeResponsecode == "0") && ($chargeAmount == $amount) && ($chargeCurrency == $currency)) {
-     echo "Correct";
+    $url = "https://app.ecwid.com/api/v3/4870020/orders/". $_GET['txref'] ."?token=". $_SESSION["token"];
+    $data = array('paymentStatus' => 'PAID');
+    $data_json = json_encode($data);
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($data_json)));
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+    var_dump($response);
+    die();
   } else {
     echo "Not Correct";
   }

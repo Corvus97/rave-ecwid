@@ -38,9 +38,6 @@ session_start();
   if (($chargeResponsecode == "00" || $chargeResponsecode == "0") && ($chargeAmount == $amount) && ($chargeCurrency == $currency)) {
     $url = "https://app.ecwid.com/api/v3/". $_SESSION["storeId"] ."/orders/". $_GET['txref'] ."?token=". $_SESSION["token"];
 
-    var_dump($url);
-    die();
-
     $data = array('paymentStatus' => 'PAID');
     $data_json = json_encode($data);
 

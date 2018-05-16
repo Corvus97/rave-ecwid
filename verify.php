@@ -49,8 +49,7 @@ session_start();
 
     $response = curl_exec($ch);
     curl_close($ch);
-    var_dump($response);
-    die();
+    header('Location: ' . $_SESSION["returnUrl"]);
   } else {
-    echo "Not Correct";
+    header('Location: ' . $_SESSION["returnUrl"]);
   }

@@ -89,5 +89,14 @@ $ref = $result->cart->order->referenceTransactionId;
   <input type="hidden" name="secretKey" value="<?php echo $secretKey; ?>"> <!-- Put your secret key here -->
   <input type="hidden" name="successurl" value="<?php echo $result->returnUrl; ?>"> <!-- Put your success url here -->
   <input type="hidden" name="failureurl" value="<?php echo $result->returnUrl; ?>"> <!-- Put your failure url here -->
-  <input type="submit" value="Submit" />
+  <!-- <input type="submit" value="Submit" /> -->
 </form>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function(){
+     $("#paymentForm").submit();
+});
+</script>

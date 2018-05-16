@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-echo "wole";
+echo $_GET['txref'];
 if (isset($_GET['txref'])) {
   $ref = $_GET['txref'];
   $amount = $_SESSION["total"]; //Correct Amount from Server

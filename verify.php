@@ -2,8 +2,6 @@
 
 session_start();
 
-echo $_SESSION["secretKey"];
-
 if (isset($_GET['txref'])) {
   $ref = $_GET['txref'];
   $amount = $_SESSION["total"]; //Correct Amount from Server

@@ -1,5 +1,6 @@
 // Set payment method title that matches merchant's payment method title set in Ecwid Control Panel. Use public token to get it from store profile
-
+var storeId = Ecwid.getOwnerId('rave-payments');
+window.localStorage.setItem("show_ecwid_logs","true");
     var paymentMethodTitle = "Rave";
 
 // Custom styles for icons for our application

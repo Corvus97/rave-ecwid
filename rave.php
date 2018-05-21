@@ -43,18 +43,17 @@ session_start();
   $json_string = json_encode($data, JSON_PRETTY_PRINT);
   $result = json_decode(json_encode($data), false);
 
-  var_dump (json_decode($result->merchantAppSettings->public));
-  die();
+  $merchdata = json_decode($result->merchantAppSettings->public);
 
 
-  if (!$result->merchantAppSettings->env) {
-    $secretKey = $result->merchantAppSettings->testSecretKey;
-    $publicKey = $result->merchantAppSettings->testPublicKey;
+  if (!$merchdata->env) {
+    $secretKey = $merchdata->testSecretKey;
+    $publicKey = $merchdata->testPublicKey;
     $env = "staging";
     $apiLink = "https://ravesandboxapi.flutterwave.com/";
   } else {
-    $secretKey = $result->merchantAppSettings->liveSecretKey;
-    $publicKey = $result->merchantAppSettings->livePublicKey;
+    $secretKey = $merchdata->liveSecretKey;
+    $publicKey = $merchdata->livePublicKey;
     $env = "live";
     $apiLink = "https://api.ravepay.co/";
   }
@@ -70,9 +69,9 @@ session_start();
   }
 
   $total = $result->cart->order->total;
-  $paymentMethod = $result->merchantAppSettings->pm;
-  $country = $result->merchantAppSettings->country;
-  $logo = $result->merchantAppSettings->logo;
+  $paymentMethod = $merchdata->pm;
+  $country = $merchdata->country;
+  $logo = $merchdata->logo;
   $currency = $result->cart->currency;
   $email = $result->cart->order->email;
   $firstName = $name[0];

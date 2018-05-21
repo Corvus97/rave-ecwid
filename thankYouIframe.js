@@ -185,7 +185,7 @@ function saveUserData() {
 
 	var dataToSave = '{"testSecretKey": "'+ saveData.testSecretKey + '", "testPublicKey": "'+ saveData.testPublicKey + '", "liveSecretKey": "'+ saveData.liveSecretKey + '", "livePublicKey": "'+ saveData.livePublicKey + '", "logo": "'+ saveData.logo + '", "country": "'+ saveData.country + '", "pm": "'+ saveData.pm + '", "env": '+ saveData.env +', "delay":'+ saveData.delay +'}';
 
-			var env = document.getElementById("env").value;
+			var env = document.getElementById("env").checked;
 			var testPublicKey = document.getElementById("testPublicKey").value;
 			var testSecretKey = document.getElementById("testSecretKey").value;
 			var livePublicKey = document.getElementById("livePublicKey").value;

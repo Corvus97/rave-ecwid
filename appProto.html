@@ -56,24 +56,24 @@ function selected() {
 		document.querySelector("#testPub").style.display = 'none';
 		document.querySelector("#testSec").style.display = 'none';
 		document.querySelector("#test-keys").style.display = 'none';
-		document.querySelector("#livePK").disabled = false;
-		document.querySelector("#liveSK").disabled = false;
+		document.querySelector("#livePublicKey").disabled = false;
+		document.querySelector("#liveSecretKey").disabled = false;
 		document.querySelector("#livePub").style.display = 'table-row';
 		document.querySelector("#liveSec").style.display = 'table-row';
 		document.querySelector("#live-keys").style.display = 'block';
-		document.querySelector("#testPK").disabled = true;
-		document.querySelector("#testSK").disabled = true;
+		document.querySelector("#testPublicKey").disabled = true;
+		document.querySelector("#testSecretKey").disabled = true;
 	} else {
 		document.querySelector("#testPub").style.display = 'table-row';
 		document.querySelector("#testSec").style.display = 'table-row';
 		document.querySelector("#test-keys").style.display = 'block';
-		document.querySelector("#livePK").disabled = true;
-		document.querySelector("#liveSK").disabled = true;
+		document.querySelector("#livePublicKey").disabled = true;
+		document.querySelector("#liveSecretKey").disabled = true;
 		document.querySelector("#livePub").style.display = 'none';
 		document.querySelector("#liveSec").style.display = 'none';
 		document.querySelector("#live-keys").style.display = 'none';
-		document.querySelector("#testPK").disabled = false;
-		document.querySelector("#testSK").disabled = false;
+		document.querySelector("#testPublicKey").disabled = false;
+		document.querySelector("#testSecretKey").disabled = false;
 	}
 }
 </script>

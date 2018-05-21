@@ -160,16 +160,6 @@ function saveUserData() {
 		d.className = "btn btn-primary btn-large";
 	},500)
 
-
-		loadedConfig.testSecretKey = config.testSecretKey;
-		loadedConfig.testPublicKey = config.testPublicKey;
-		loadedConfig.liveSecretKey = config.liveSecretKey;
-		loadedConfig.livePublicKey = config.livePublicKey;
-		loadedConfig.logo = config.logo;
-		loadedConfig.country = config.country;
-		loadedConfig.pm = config.pm;
-		loadedConfig.env = config.env;
-
 	var saveData = {
 		testSecretKey: loadedConfig.testSecretKey,
 		testPublicKey: loadedConfig.testPublicKey,

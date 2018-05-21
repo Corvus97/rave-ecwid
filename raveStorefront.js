@@ -333,10 +333,10 @@ window.EcwidApp = window.EcwidApp || createEcwidSDK()
     console.log(storeData);
 
     // Get store info
-    var storeData = EcwidApp.getPayload();
-    var storeId = storeData.store_id;
-    var accessToken = storeData.access_token;
-    var lang = storeData.lang;
+    // var storeData = EcwidApp.getPayload();
+    // var storeId = storeData.store_id;
+    // var accessToken = storeData.access_token;
+    // var lang = storeData.lang;
 
 // Custom styles for icons for our application
 

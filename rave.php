@@ -43,7 +43,7 @@ session_start();
   $json_string = json_encode($data, JSON_PRETTY_PRINT);
   $result = json_decode(json_encode($data), false);
 
-  var_dump ($result);
+  var_dump (json_decode($result->merchantAppSettings->public));
   die();
 
 

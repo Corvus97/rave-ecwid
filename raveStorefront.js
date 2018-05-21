@@ -328,13 +328,15 @@ window.EcwidApp = window.EcwidApp || createEcwidSDK()
       autoheight: true
     });
 
+    
+
+    console.log(storeData);
+
     // Get store info
     var storeData = EcwidApp.getPayload();
     var storeId = storeData.store_id;
     var accessToken = storeData.access_token;
     var lang = storeData.lang;
-
-    console.log(storeData);
 
 // Custom styles for icons for our application
 

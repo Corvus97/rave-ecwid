@@ -4,11 +4,8 @@
 
 // Custom styles for icons for our application
 
-var customThankYouConfig = Ecwid.getAppPublicConfig('rave-payments');
-customThankYouConfig = JSON.parse(customThankYouConfig);
-console.log(customThankYouConfig);
+var publicToken = Ecwid.getAppPublicToken('rave-payments');
 
-console.log(configs);
 
     var customStyleForPaymentIcons = document.createElement('style');
     customStyleForPaymentIcons.innerHTML = ".ecwid-PaymentMethodsBlockSvgCustom { width: 100%; display: inline-block; height: auto;}";

@@ -106,7 +106,7 @@ function getUserData() {
 		loadedConfig.env = config.env;
 		loadedConfig.delay = config.delay;
 
-		console.log(loadedConfig);
+		// console.log(loadedConfig);
 	});
 
 	setTimeout(function(){
@@ -204,6 +204,8 @@ function saveUserData() {
 				country,
 				pm
 			};
+
+			console.log(env);
 
 			EcwidApp.setAppStorage(data, function () {
 				console.log('Public config saved!');

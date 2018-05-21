@@ -4,7 +4,7 @@
 
 // Custom styles for icons for our application
 
-const Ecwid = app;
+const app = Ecwid;
 
 var publicToken = app.getAppPublicToken('rave-payments');
 var storeId = app.getOwnerId('rave-payments');

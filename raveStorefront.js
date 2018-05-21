@@ -6,7 +6,7 @@
 
 var publicToken = Ecwid.getAppPublicToken('rave-payments');
 
-var configs = Ecwid.getAppPublicConfig();
+var configs = Ecwid.getAppPublicConfig('rave-payments');
 
 console.log(configs);
 

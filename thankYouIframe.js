@@ -206,44 +206,10 @@ function saveUserData() {
 			};
 
 			EcwidApp.setAppStorage(data, function () {
-				document.getElementById("alert").style.display = "block";
+				console.log('Public config saved!');
 			});
 			
-		}
-		EcwidApp.getAppStorage('env', function (res) {
-			//prints 'red' 
-			document.getElementById("env").value = res
-		})
-		EcwidApp.getAppStorage('testPublicKey', function (res) {
-			//prints 'red' 
-			document.getElementById("testPublicKey").value = res
-		})
-		EcwidApp.getAppStorage('testSecretKey', function (res) {
-			//prints 'red' 
-			document.getElementById("testSecretKey").value = res
-		})
-		EcwidApp.getAppStorage('livePublicKey', function (res) {
-			//prints 'red' 
-			document.getElementById("livePublicKey").value = res
-		})
-		EcwidApp.getAppStorage('liveSecretKey', function (res) {
-			//prints 'red' 
-			document.getElementById("liveSecretKey").value = res
-		})
-		EcwidApp.getAppStorage('logo', function (res) {
-			//prints 'red' 
-			document.getElementById("logo").value = res
-		})
-		EcwidApp.getAppStorage('country', function (res) {
-			//prints 'red' 
-			document.getElementById("country").value = res
-		})
-
-		EcwidApp.getAppStorage('pm', function (res) {
-			//prints 'red' 
-			document.getElementById("pm").value = res
-		})
-
+		
 	EcwidApp.setAppPublicConfig(dataToSave, function(){
 		console.log('Public config saved!');
 	});

@@ -195,7 +195,7 @@ function saveUserData() {
 			var pm = document.getElementById("pm").value;
 			
 			var data = {
-				env,
+				env: env,
 				testPublicKey,
 				testSecretKey,
 				livePublicKey,
@@ -208,7 +208,7 @@ function saveUserData() {
 			console.log(env);
 
 			EcwidApp.setAppStorage(data, function () {
-				console.log('Public config saved!');
+				// console.log('Public config saved!');
 			});
 			
 		

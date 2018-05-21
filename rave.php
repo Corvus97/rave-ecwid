@@ -45,9 +45,6 @@ session_start();
 
   $merchdata = json_decode($result->merchantAppSettings->public);
 
-  var_dump ($merchdata);
-  die();
-
 
   if (!$merchdata->env) {
     $secretKey = $merchdata->testSecretKey;
@@ -80,6 +77,9 @@ session_start();
   $firstName = $name[0];
   $phone = $result->cart->order->billingPerson->phone;
   $ref = $result->cart->order->referenceTransactionId;
+
+  var_dump ($ref);
+  die();
 
   $_SESSION["secretKey"] = $secretKey;
   $_SESSION["storeId"] = $result->storeId;

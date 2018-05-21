@@ -7,13 +7,12 @@ session_start();
 
   $query = array(
     "SECKEY" => $_SESSION["secretKey"],
-    "txref" => $ref,
-    "include_payment_entity" => "1"
+    "txref" => $ref
   );
 
   $data_string = json_encode($query);
 
-  $ch = curl_init($_SESSION["apiURL"] . 'flwv3-pug/getpaidx/api/xrequery');
+  $ch = curl_init($_SESSION["apiURL"] . 'flwv3-pug/getpaidx/api/v2/verify');
   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
   curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -29,6 +28,12 @@ session_start();
   curl_close($ch);
 
   $resp = json_decode($response, true);
+  header('Content-Type: application/json');
+// The resulting JSON array will be in $result variable
+  $json_string = json_encode($resp, JSON_PRETTY_PRINT);
+
+  echo $json_string;
+  die();
 
   $paymentStatus = $resp['data']['status'];
   $chargeResponsecode = $resp['data']['chargecode'];

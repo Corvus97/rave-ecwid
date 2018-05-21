@@ -185,6 +185,65 @@ function saveUserData() {
 
 	var dataToSave = '{"testSecretKey": "'+ saveData.testSecretKey + '", "testPublicKey": "'+ saveData.testPublicKey + '", "liveSecretKey": "'+ saveData.liveSecretKey + '", "livePublicKey": "'+ saveData.livePublicKey + '", "logo": "'+ saveData.logo + '", "country": "'+ saveData.country + '", "pm": "'+ saveData.pm + '", "env": '+ saveData.env +', "delay":'+ saveData.delay +'}';
 
+			var env = document.getElementById("env").value;
+			var testPublicKey = document.getElementById("testPublicKey").value;
+			var testSecretKey = document.getElementById("testSecretKey").value;
+			var livePublicKey = document.getElementById("livePublicKey").value;
+			var liveSecretKey = document.getElementById("liveSecretKey").value;
+			var logo = document.getElementById("logo").value;
+			var country = document.getElementById("country").value;
+			var pm = document.getElementById("pm").value;
+			
+			var data = {
+				env,
+				testPublicKey,
+				testSecretKey,
+				livePublicKey,
+				liveSecretKey,
+				logo,
+				country,
+				pm
+			};
+
+			EcwidApp.setAppStorage(data, function () {
+				document.getElementById("alert").style.display = "block";
+			});
+			
+		}
+		EcwidApp.getAppStorage('env', function (res) {
+			//prints 'red' 
+			document.getElementById("env").value = res
+		})
+		EcwidApp.getAppStorage('testPublicKey', function (res) {
+			//prints 'red' 
+			document.getElementById("testPublicKey").value = res
+		})
+		EcwidApp.getAppStorage('testSecretKey', function (res) {
+			//prints 'red' 
+			document.getElementById("testSecretKey").value = res
+		})
+		EcwidApp.getAppStorage('livePublicKey', function (res) {
+			//prints 'red' 
+			document.getElementById("livePublicKey").value = res
+		})
+		EcwidApp.getAppStorage('liveSecretKey', function (res) {
+			//prints 'red' 
+			document.getElementById("liveSecretKey").value = res
+		})
+		EcwidApp.getAppStorage('logo', function (res) {
+			//prints 'red' 
+			document.getElementById("logo").value = res
+		})
+		EcwidApp.getAppStorage('country', function (res) {
+			//prints 'red' 
+			document.getElementById("country").value = res
+		})
+
+		EcwidApp.getAppStorage('pm', function (res) {
+			//prints 'red' 
+			document.getElementById("pm").value = res
+		})
+
 	EcwidApp.setAppPublicConfig(dataToSave, function(){
 		console.log('Public config saved!');
 	});

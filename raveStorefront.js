@@ -2,22 +2,13 @@
 
     var paymentMethodTitle = "Rave";
 
-     var storeData = EcwidApp.getPayload();
-    var storeId = storeData.store_id;
-    var accessToken = storeData.access_token;
-    var language = storeData.lang;
-    var viewMode = storeData.view_mode;
-
-    if (storeData.public_token !== undefined){
-      var publicToken = storeData.public_token;
-    }
-
-    if (storeData.app_state !== undefined){
-      var appState = storeData.app_state;
-    }
-
-    console.log(publicToken);
 // Custom styles for icons for our application
+
+var publicToken = Ecwid.getAppPublicToken('rave-payments');
+
+var configs = Ecwid.getAppPublicConfig();
+
+console.log(configs);
 
     var customStyleForPaymentIcons = document.createElement('style');
     customStyleForPaymentIcons.innerHTML = ".ecwid-PaymentMethodsBlockSvgCustom { width: 100%; display: inline-block; height: auto;}";

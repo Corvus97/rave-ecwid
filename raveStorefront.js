@@ -1,7 +1,7 @@
 // Set payment method title that matches merchant's payment method title set in Ecwid Control Panel. Use public token to get it from store profile
 
     var paymentMethodTitle = "Rave";
-
+console.log(Ecwid);
 // Custom styles for icons for our application
 if (
       typeof(Ecwid) == 'object'

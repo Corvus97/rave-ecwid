@@ -8,7 +8,7 @@ if (
       && typeof(Ecwid.OnPageLoad) == 'object'
     ) {
 var publicToken = Ecwid.getAppPublicToken('rave-payments');
-var storeId = Ecwid.getOwnerId('rave-payments');
+var storeId = Ecwid.getOwnerId;
 var theUrl = `https://app.ecwid.com/api/v3/${storeId}/profile?token=${publicToken}`;
 
 var xmlHttp = new XMLHttpRequest();

@@ -77,7 +77,7 @@ session_start();
   $ref = $result->cart->order->referenceTransactionId;
 
 
-  echo $data;
+  echo $result;
   die();
 
   $_SESSION["secretKey"] = $secretKey;

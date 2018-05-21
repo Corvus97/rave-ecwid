@@ -195,7 +195,7 @@ function saveUserData() {
 			var pm = document.getElementById("pm").value;
 			
 			var data = {
-				env: env,
+				environment: env,
 				testPublicKey,
 				testSecretKey,
 				livePublicKey,

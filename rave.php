@@ -1,4 +1,5 @@
-<?php
+<?php 
+session_start(); 
   function getEcwidPayload($app_secret_key, $data)
   {
   // Get the encryption key (16 first bytes of the app's client_secret key)
@@ -41,9 +42,7 @@
   $data = getEcwidPayload($client_secret, $ecwid_payload);
   $json_string = json_encode($data, JSON_PRETTY_PRINT);
   $result = json_decode(json_encode($data), false);
-  $json = json_encode($result,JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-echo $result;
-die();
+
 
   if (!$result->merchantAppSettings->env) {
     $secretKey = $result->merchantAppSettings->testSecretKey;
@@ -77,8 +76,7 @@ die();
   $phone = $result->cart->order->billingPerson->phone;
   $ref = $result->cart->order->referenceTransactionId;
 
-  var_dump ($result);
-  die();
+
 
   $_SESSION["secretKey"] = $secretKey;
   $_SESSION["storeId"] = $result->storeId;
@@ -87,7 +85,12 @@ die();
   $_SESSION["currency"] = $currency;
   $_SESSION["returnUrl"] = $result->returnUrl;
   $_SESSION["apiURL"] = $apiLink;
+
+
   ?>
+<!DOCTYPE html>
+  <html>
+  <body>
 
   <form method="POST" action="https://hosted.flutterwave.com/processPayment.php" id="paymentForm">
     <input type="hidden" name="amount" value="<?php echo $total; ?>" /> <!-- Replace the value with your transaction amount -->

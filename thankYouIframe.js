@@ -81,8 +81,6 @@ function createUserData() {
 		exists: 'yes'
 	};
 
-	console.log(data);
-
 	EcwidApp.setAppStorage(appExists, function(){
 	  console.log('Data saved!');
 	});

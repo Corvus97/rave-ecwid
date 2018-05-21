@@ -1,1 +1,241 @@
-Ecwid Rave
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="CssFw.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+	 crossorigin="anonymous">
+	<link rel="stylesheet" href="https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.1/ecwid-app-ui.css" />
+	<link rel="stylesheet" href="main.css" />
+	<script src="https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/js/1.2.5/ecwid-app.js"></script>
+
+</head>
+
+<body class='normalized'>
+
+	<!-- Back button block START -->
+
+	<div onclick="goBack();" class="content-control-menu-nav" style="">
+		<a class="horizontal-icolink icolink-small icolink-prepend">
+			<span class="icon-arr-left"></span>
+			<span class="gwt-InlineLabel">BACK</span>
+		</a>
+	</div>
+
+	<!-- Back button block END -->
+
+	<!-- Main app block START -->
+
+	<div class="settings-page main">
+		<div class="settings-page__header">
+			<div class="settings-page__titles settings-page__titles--left">
+				<h1 class="settings-page__title">Flutterwave Rave</h1>
+				<div class="settings-page__subtitle">Ensuring secure payments</div>
+			</div>
+
+			<!-- Welcome Alert block with additional info START -->
+			
+			<div id="alert" class="alert alert-success alert-icon">
+				<div class="alert-inner">
+					<div class="alert-content">
+						<div class="icon">
+							<span class="svg-icon">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70">
+									<path d="M34.5 67h-.13c-8.68-.03-16.83-3.45-22.94-9.61C5.32 51.23 1.97 43.06 2 34.38 2.07 16.52 16.65 2 34.5 2h.13c8.68.03 16.83 3.45 22.94 9.61 6.12 6.16 9.46 14.34 9.43 23.02C66.93 52.48 52.35 67 34.5 67zm0-62C18.3 5 5.06 18.18 5 34.39c-.03 7.88 3.01 15.3 8.56 20.89 5.55 5.59 12.95 8.69 20.83 8.72h.12c16.2 0 29.44-13.18 29.5-29.39.03-7.88-3.01-15.3-8.56-20.89C49.89 8.13 42.49 5.03 34.61 5h-.11z"
+									/>
+									<path d="M32.17 46.67l-10.7-10.08c-.6-.57-.63-1.52-.06-2.12.57-.6 1.52-.63 2.12-.06l8.41 7.92 14.42-16.81c.54-.63 1.49-.7 2.12-.16.63.54.7 1.49.16 2.12L32.17 46.67z"
+									/>
+								</svg>
+							</span>
+						</div>
+						<div class="title">Details has been successfully saved!</div>
+						
+						<!-- <div>
+				                     	<button class="btn btn-primary" type="button">See details</button>
+				                  	</div> -->
+					</div>
+				</div>
+			</div>
+			
+			<!-- Welcome Alert block with additional info END -->
+
+			<!-- Status card area START -->
+
+			<div class="named-area dashboard">
+				<div class="named-area__header">
+					<div class="named-area__titles">
+						<h4 class="named-area__title h4">Configuration</h4>
+						<span class="named-area__subtitle">Fill up your rave details</span>
+					</div>
+					<div class="named-area__description"></div>
+					<div class="named-area__additional"></div>
+				</div>
+				<div class="named-area__body">
+					<!-- Instructions title block START -->
+					<!-- Check input element for example of how to set data attributes to save to storage later -->
+					
+					<div class="a-card a-card--normal">
+						<div class="a-card__paddings">
+							<div class="titled-items-list">
+								<div class="titled-items-list__item">
+
+									<div class="fieldset" style="width: 100%">
+										<div class="fieldset__title">Test/Live</div>
+										<select class="form-control" id="env">
+											<option value="test">Test</option>
+											<option value="live">Live</option>
+										</select>
+									</div>
+									
+									<div class="fieldset" style="width: 100%">
+										<div class="fieldset__title">Test Public Key</div>
+										<input type="text" class="form-control" id="testPublicKey" aria-describedby="testPublicKeyHelp" placeholder="Enter test public key">
+										<small id="testPublicKeyHelp" class="form-text text-muted">Get your test keys
+											<a href="https://raveappv2.herokuapp.com/dashboard/settings/apis" target="_blank">here</a>
+										</small>
+									</div>
+									<div class="fieldset" style="width: 100%">
+										<div class="fieldset__title">Test Secret Key</div>
+										<input type="text" class="form-control" id="testSecretKey" aria-describedby="testSecretKeyHelp" placeholder="Enter test secret key">
+										<small id="testSecretKeyHelp" class="form-text text-muted">Get your test keys
+											<a href="https://raveappv2.herokuapp.com/dashboard/settings/apis" target="_blank">here</a>
+										</small>
+									</div>
+									<div class="fieldset" style="width: 100%">
+										<div class="fieldset__title">Live Public Key</div>
+										<input type="text" class="form-control" id="livePublicKey" aria-describedby="livePublicKeyHelp" placeholder="Enter live public key">
+										<small id="livePublicKeyHelp" class="form-text text-muted">Get your live keys
+											<a href="https://rave.flutterwave.com/dashboard/settings/apis" target="_blank">here</a>
+										</small>
+									</div>
+									<div class="fieldset" style="width: 100%">
+										<div class="fieldset__title">Live Secret Key</div>
+										<input type="text" class="form-control" id="liveSecretKey" aria-describedby="liveSecretKeyHelp" placeholder="Enter live secret key">
+										<small id="liveSecretKeyHelp" class="form-text text-muted">Get your live keys
+											<a href="https://rave.flutterwave.com/dashboard/settings/apis" target="_blank">here</a>
+										</small>
+									</div>
+									<div class="fieldset" style="width: 100%">
+										<div class="fieldset__title">Logo</div>
+										<input type="text" class="form-control" id="logo" placeholder="Enter logo URL">
+									</div>
+									<div class="fieldset" style="width: 100%">
+										<div class="fieldset__title">Country</div>
+										<select class="form-control" id="country">
+											<option value="NG">Nigeria</option>
+											<option value="KE">Kenya</option>
+											<option value="GH">Ghana</option>
+											<option value="ZA">South Africa</option>
+										</select>
+									</div>
+									<div class="fieldset" style="width: 100%">
+										<div class="fieldset__title">Payment Method</div>
+										<select class="form-control" id="pm">
+											<option value="both">All</option>
+											<option value="card">Cards Only</option>
+											<option value="account">Account Only</option>
+											<option value="ussd">USSD Only</option>
+										</select>
+									</div>
+									<div class="cta-block__cta">
+										<button onclick="saveConfig();" type="button" class="btn btn-primary btn-medium">
+											
+											<span>Save</span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Status card area END -->
+		</div>
+	</div>
+	</div>
+
+	<!-- PROMO BLOCK END -->
+
+	</div>
+
+	</div>
+
+	</div>
+
+
+
+	<!-- End contents of third tab -->
+	<script src='functions.js'></script>
+	<script src="https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.1/ecwid-app-ui.min.js"></script>
+
+	<script>
+		function saveConfig() {
+			var env = document.getElementById("env").value;
+			var testPublicKey = document.getElementById("testPublicKey").value;
+			var testSecretKey = document.getElementById("testSecretKey").value;
+			var livePublicKey = document.getElementById("livePublicKey").value;
+			var liveSecretKey = document.getElementById("liveSecretKey").value;
+			var logo = document.getElementById("logo").value;
+			var country = document.getElementById("country").value;
+			var pm = document.getElementById("pm").value;
+			
+			var data = {
+				env,
+				testPublicKey,
+				testSecretKey,
+				livePublicKey,
+				liveSecretKey,
+				logo,
+				country,
+				pm
+			};
+
+			EcwidApp.setAppStorage(data, function () {
+				document.getElementById("alert").style.display = "block";
+			});
+			
+		}
+		EcwidApp.getAppStorage('env', function (res) {
+			//prints 'red' 
+			document.getElementById("env").value = res
+		})
+		EcwidApp.getAppStorage('testPublicKey', function (res) {
+			//prints 'red' 
+			document.getElementById("testPublicKey").value = res
+		})
+		EcwidApp.getAppStorage('testSecretKey', function (res) {
+			//prints 'red' 
+			document.getElementById("testSecretKey").value = res
+		})
+		EcwidApp.getAppStorage('livePublicKey', function (res) {
+			//prints 'red' 
+			document.getElementById("livePublicKey").value = res
+		})
+		EcwidApp.getAppStorage('liveSecretKey', function (res) {
+			//prints 'red' 
+			document.getElementById("liveSecretKey").value = res
+		})
+		EcwidApp.getAppStorage('logo', function (res) {
+			//prints 'red' 
+			document.getElementById("logo").value = res
+		})
+		EcwidApp.getAppStorage('country', function (res) {
+			//prints 'red' 
+			document.getElementById("country").value = res
+		})
+
+		EcwidApp.getAppStorage('pm', function (res) {
+			//prints 'red' 
+			document.getElementById("pm").value = res
+		})
+	</script>
+
+	</div>
+
+	<!-- Main app block END -->
+
+</body>
+
+</html>

@@ -1,9 +1,4 @@
-<?php 
-session_start(); ?>
-<!DOCTYPE html>
-<html>
-<body>
-  <?php
+<?php
   function getEcwidPayload($app_secret_key, $data)
   {
   // Get the encryption key (16 first bytes of the app's client_secret key)

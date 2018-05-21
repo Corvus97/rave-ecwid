@@ -328,12 +328,13 @@ window.EcwidApp = window.EcwidApp || createEcwidSDK()
       autoheight: true
     });
 
-    
 
-    console.log(storeData);
+
 
     // Get store info
-    // var storeData = EcwidApp.getPayload();
+    var storeData = EcwidApp.getPayload();
+    console.log(storeData);
+    
     // var storeId = storeData.store_id;
     // var accessToken = storeData.access_token;
     // var lang = storeData.lang;

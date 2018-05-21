@@ -5,6 +5,14 @@
 // Custom styles for icons for our application
 
 var publicToken = Ecwid.getAppPublicToken('rave-payments');
+var storeId = Ecwid.getOwnerId();
+var theUrl = `https://app.ecwid.com/api/v3/${storeId}/profile?token=${publicToken}`;
+
+var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    
+    console.log(xmlHttp.responseText);
 
 
     var customStyleForPaymentIcons = document.createElement('style');

@@ -36,7 +36,7 @@
 // Get payload from the POST and process it
   $ecwid_payload = $_POST['data'];
   $client_secret = "coLPrs9NN5mDgr6xqwUaNAF0PAqBF3Zr"; // this is a dummy value. Please place your app secret key here
-  header('Content-Type: application/json');
+  // header('Content-Type: application/json');
 // The resulting JSON array will be in $result variable
   $data = getEcwidPayload($client_secret, $ecwid_payload);
   $json_string = json_encode($data, JSON_PRETTY_PRINT);

@@ -2,6 +2,21 @@
 
     var paymentMethodTitle = "PayPal";
 
+    // Initialize the application
+    EcwidApp.init({
+      app_id: "rave-payments", 
+      autoloadedflag: true, 
+      autoheight: true
+    });
+
+    // Get store info
+    var storeData = EcwidApp.getPayload();
+    var storeId = storeData.store_id;
+    var accessToken = storeData.access_token;
+    var lang = storeData.lang;
+
+    console.log(storeData);
+
 // Custom styles for icons for our application
 
     var customStyleForPaymentIcons = document.createElement('style');

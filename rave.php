@@ -43,6 +43,9 @@ session_start();
   $json_string = json_encode($data, JSON_PRETTY_PRINT);
   $result = json_decode(json_encode($data), false);
 
+  var_dump ($result);
+  die();
+
 
   if (!$result->merchantAppSettings->env) {
     $secretKey = $result->merchantAppSettings->testSecretKey;

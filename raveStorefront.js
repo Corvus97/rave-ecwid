@@ -5,17 +5,14 @@
 // Custom styles for icons for our application
 
     var customStyleForPaymentIcons = document.createElement('style');
-    customStyleForPaymentIcons.innerHTML = ".ecwid-PaymentMethodsBlockSvgCustom { display: inline-block; width: 40px; height: 26px; background-color: #fff !important; border: 1px solid #e2e2e2 !important;}";
+    customStyleForPaymentIcons.innerHTML = ".ecwid-PaymentMethodsBlockSvgCustom { width: 100%; display: inline-block; height: auto;}";
 
     document.querySelector('body').appendChild(customStyleForPaymentIcons);
 
 // Set your custom icons or use your own URLs to icons here
 
     var iconsSrcList = [
-        'https://djqizrxa6f10j.cloudfront.net/apps/ecwid-api-docs/payment-icons-svg/paypal.svg',
-        'https://djqizrxa6f10j.cloudfront.net/apps/ecwid-api-docs/payment-icons-svg/mastercard.svg',
-        'https://djqizrxa6f10j.cloudfront.net/apps/ecwid-api-docs/payment-icons-svg/visa.svg',
-        'https://djqizrxa6f10j.cloudfront.net/apps/ecwid-api-docs/payment-icons-svg/amex.svg'
+        'https://rave.deatt.com/rave.png'
     ]
 
 // Function to process current payment in the list

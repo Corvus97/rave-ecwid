@@ -3,11 +3,10 @@
     var paymentMethodTitle = "Rave";
 
 // Custom styles for icons for our application
-
-var widgets = Ecwid.getInitializedWidgets();
-
-console.log(widgets);
-
+if (
+      typeof(Ecwid) == 'object'
+      && typeof(Ecwid.OnPageLoad) == 'object'
+    ) {
 var publicToken = Ecwid.getAppPublicToken('rave-payments');
 var storeId = Ecwid.getOwnerId('rave-payments');
 var theUrl = `https://app.ecwid.com/api/v3/${storeId}/profile?token=${publicToken}`;
@@ -82,3 +81,4 @@ var xmlHttp = new XMLHttpRequest();
             ecwidUpdatePaymentData();
         }
     })
+}

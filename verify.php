@@ -28,12 +28,12 @@ session_start();
   curl_close($ch);
 
   $resp = json_decode($response, true);
-  header('Content-Type: application/json');
+  // header('Content-Type: application/json');
 // The resulting JSON array will be in $result variable
   $json_string = json_encode($resp, JSON_PRETTY_PRINT);
 
-  echo $json_string;
-  die();
+  // echo $json_string;
+  // die();
 
   $paymentStatus = $resp['data']['status'];
   $chargeResponsecode = $resp['data']['chargecode'];

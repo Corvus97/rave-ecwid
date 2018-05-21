@@ -4,9 +4,9 @@
 
 // Custom styles for icons for our application
 
-var publicToken = Ecwid.getAppPublicToken('rave-payments');
-
-var configs = Ecwid.getAppPublicConfig('rave-payments');
+var customThankYouConfig = Ecwid.getAppPublicConfig('rave-payments');
+customThankYouConfig = JSON.parse(customThankYouConfig);
+console.log(customThankYouConfig);
 
 console.log(configs);
 

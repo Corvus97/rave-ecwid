@@ -45,6 +45,9 @@ session_start();
 
   $merchdata = json_decode($result->merchantAppSettings->public);
 
+  var_dump ($merchdata);
+  die();
+
 
   if (!$merchdata->env) {
     $secretKey = $merchdata->testSecretKey;

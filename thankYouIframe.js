@@ -1,13 +1,25 @@
 
 var loadedConfig = {
-	storeUrl: "",
-	enabled: "",
+	testSecretKey: "",
+	testPublicKey: "",
+	liveSecretKey: "",
+	livePublicKey: "",
+	logo: "",
+	country: "",
+	pm: "",
+	env: "",
 	delay: ""
 };
 
 var initialConfig = {
-	storeUrl: "",
-	enabled: false,
+	testSecretKey: "",
+	testPublicKey: "",
+	liveSecretKey: "",
+	livePublicKey: "",
+	logo: "",
+	country: "",
+	pm: "",
+	env: false,
 	delay: 0
 };
 
@@ -29,12 +41,18 @@ function createUserData() {
 	var storeProfile = httpGet(theUrl);
 	storeProfile = JSON.parse(storeProfile);
 
-	initialConfig.storeUrl = storeProfile.generalInfo.storeUrl;
-	initialConfig.enabled = false;
+	initialConfig.testSecretKey = "";
+	initialConfig.testPublicKey = "";
+	initialConfig.liveSecretKey = "";
+	initialConfig.livePublicKey = "";
+	initialConfig.logo = "";
+	initialConfig.country = "";
+	initialConfig.pm = "";
+	initialConfig.env = false;
 	initialConfig.delay = 0;
 
+	var data = '{"testSecretKey": "'+ initialConfig.testSecretKey + '", "testPublicKey": "'+ initialConfig.testPublicKey + '", "liveSecretKey": "'+ initialConfig.liveSecretKey + '", "livePublicKey": "'+ initialConfig.livePublicKey + '", "logo": "'+ initialConfig.logo + '", "country": "'+ initialConfig.country + '", "pm": "'+ initialConfig.pm + '", "env": '+ initialConfig.env +', "delay":'+ initialConfig.delay +'}';
 
-	var data = '{"storeUrl": "'+ initialConfig.storeUrl + '", "enabled": '+ initialConfig.enabled +', "delay":'+ initialConfig.delay +'}';
 
 	EcwidApp.setAppPublicConfig(data, function(){
 		console.log('Public config saved!');

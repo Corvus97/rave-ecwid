@@ -1,10 +1,11 @@
 // Get app public config value from Ecwid
-var customThankYouConfig = Ecwid.getAppPublicConfig('custom-thank-you');
-customThankYouConfig = JSON.parse(customThankYouConfig);
-console.log(customThankYouConfig);
+var raveConfig = Ecwid.getAppPublicConfig('rave-payments');
+raveConfig = JSON.parse(raveConfig);
+
+console.log(raveConfig);
 
 // If the app is enabled in storefront
-if(customThankYouConfig.enabled == true) {
+if(raveConfig.enabled == true) {
 
     if (customThankYouConfig.storeUrl.substring(0,7) == "http://" || customThankYouConfig.storeUrl.substring(0,8) == "https://") {
         console.log("Link has a protocol");

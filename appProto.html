@@ -21,38 +21,29 @@
 	var lang = storeData.lang;
 
 	// Interface translations
-	var ru = {
-		title: "Настройки перенаправления",
-		storeUrl: "Куда отправить пользователя?",
-		enabled: "Включить перенаправление",
-		delay: "Задержка перед перенаправлением (миллисекунды)",
-		save: "Сохранить настройки",
-		enabledCheck: "Включено",
-		enabledUnCheck: "Выключено",
-		description: "В момент завершения заказа ваши покупатели будут автоматически переходить на страницу, которую вы укажете в настройках."
-	}
 
-	var en = {
-		title: "Redirect Settings",
-		storeUrl: "Redirect destination URL",
-		enabled: "Enable the redirect",
-		delay: "Delay before redirect (milliseconds)",
-		save: "Save settings",
-		enabledCheck: "enabled",
-		enabledUnCheck: "disabled",
-		description: "Once enabled, your customers will be redirected to the specified destination URL after their order is placed."
-	}
+	// var en = {
+	// 	title: "Flutterwave Rave",
+	// 	storeUrl: "Redirect destination URL",
+	// 	enabled: "Enable the redirect",
+	// 	delay: "Delay before redirect (milliseconds)",
+	// 	save: "Save settings",
+	// 	enabledCheck: "enabled",
+	// 	enabledUnCheck: "disabled",
+	// 	description: "Once enabled, your customers will be redirected to the specified destination URL after their order is placed."
+	// }
 
 	// Load translations depending on language of Ecwid CP
-	var languagePack = [ru, en];
+	// var languagePack = [ru, en];
 
-	if (lang == 'ru') {
-		lang = 0;
-		document.querySelector('html').setAttribute('lang','ru');
-	} else {
-		lang = 1;
-		document.querySelector('html').setAttribute('lang','en');
-	}
+	// if (lang == 'ru') {
+	// 	lang = 0;
+	// 	document.querySelector('html').setAttribute('lang','ru');
+	// } else {
+	// 	lang = 1;
+	// 	document.querySelector('html').setAttribute('lang','en');
+	// }
+	// document.querySelector('html').setAttribute('lang','en');
 </script>
 
 <script>
@@ -62,11 +53,27 @@ function selected() {
 	var dropDown = document.querySelector(".checkbox input").checked;
 
 	if(dropDown) {
-		document.querySelector("tr:nth-child(2)").style.visibility = 'visible';
-		document.querySelector("#storeUrl").disabled = false;
+		document.querySelector("#testPub").style.display = 'none';
+		document.querySelector("#testSec").style.display = 'none';
+		document.querySelector("#test-keys").style.display = 'none';
+		document.querySelector("#livePK").disabled = false;
+		document.querySelector("#liveSK").disabled = false;
+		document.querySelector("#livePub").style.display = 'table-row';
+		document.querySelector("#liveSec").style.display = 'table-row';
+		document.querySelector("#live-keys").style.display = 'block';
+		document.querySelector("#testPK").disabled = true;
+		document.querySelector("#testSK").disabled = true;
 	} else {
-		document.querySelector("tr:nth-child(2)").style.visibility = 'hidden';
-		document.querySelector("#storeUrl").disabled = true;
+		document.querySelector("#testPub").style.display = 'table-row';
+		document.querySelector("#testSec").style.display = 'table-row';
+		document.querySelector("#test-keys").style.display = 'block';
+		document.querySelector("#livePK").disabled = true;
+		document.querySelector("#liveSK").disabled = true;
+		document.querySelector("#livePub").style.display = 'none';
+		document.querySelector("#liveSec").style.display = 'none';
+		document.querySelector("#live-keys").style.display = 'none';
+		document.querySelector("#testPK").disabled = false;
+		document.querySelector("#testSK").disabled = false;
 	}
 }
 </script>
@@ -75,33 +82,104 @@ function selected() {
 
 </head>
 <body class="normalized">
+<div class="header">
+	<h1>Flutterwave Rave</h1>
+	<p class="sub">Ensuring secure payments</p>
+</div>
 
-<h1><script>document.write(languagePack[lang].title);</script></h1>
+<p id="test-keys" class="get">Get your Test API keys <a target="_blank" href="https://raveappv2.herokuapp.com/dashboard/settings/apis">here</a></p>
 
-<p><script>document.write(languagePack[lang].description);</script></p>
+<p id="live-keys" class="get">Get your Live API keys <a target="_blank" href="https://rave.flutterwave.com/dashboard/settings/apis">here</a></p>
 
 <table>
 	<tr>
 	<!-- Select the mode of the application -->
 
-		<td><script>document.write(languagePack[lang].enabled);</script></td>
+		<td>Test/Live</td>
 		<td id="checkbox">
 			<label class="checkbox big">
-    		<input type="checkbox" name="" id="enabled" onchange="selected()">
-    			<div data-on="" data-off="">
-        		<div></div>
-    		</div>
-		</label>
+	    		<input type="checkbox" name="" id="env" onchange="selected()">
+	    			<div data-on="live" data-off="test">
+	        		<div></div>
+	    		</div>
+			</label>
+			<br>
+		</td>
+	</tr>
+	<tr class="test" id="testPub">
+		<!-- Field to set the test public key -->
+		<td>Test Public Key</td>
+		<td class="pad-b-null">
+			<div class="input-append">
+	 			<input type="text" class="form-control" id="testPK" placeholder="FLWPUBK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X" value="">
+	 			<a class="input-addon"></a>
+			</div>
+			<span class="danger">*required</span>
+		</td>
+	</tr>
+	<tr class="test"  id="testSec">
+		<!-- Field to set the test secret key -->
+		<td>Test Secret Key</td>
+		<td class="pad-b-null">
+			<div class="input-append">
+	 			<input type="text" class="form-control" id="testSecretKey" placeholder="FLWSECK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X" value="">
+	 			<a class="input-addon"></a>
+			</div>
+			<span class="danger">*required</span>
+		</td>
+	</tr>
+	<tr class="live" id="livePub">
+		<!-- Field to set the live public key -->
+		<td>Live Public Key</td>
+		<td class="pad-b-null">
+			<div class="input-append">
+	 			<input type="text" class="form-control" id="livePublicKey" placeholder="FLWPUBK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X" value="">
+	 			<a class="input-addon"></a>
+			</div>
+			<span class="danger">*required</span>
+		</td>
+	</tr>
+	<tr class="live" id="liveSec">
+		<!-- Field to set the live secret key -->
+		<td>Live Secret Key</td>
+		<td class="pad-b-null">
+			<div class="input-append">
+	 			<input type="text" class="form-control" id="liveSecretKey" placeholder="FLWSECK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X" value="">
+	 			<a class="input-addon"></a>
+			</div>
+			<span class="danger">*required</span>
 		</td>
 	</tr>
 	<tr>
-		<!-- Field to set the new Thank You page URL -->
-		<td><script>document.write(languagePack[lang].storeUrl);</script></td>
+		<!-- Field to set the logo -->
+		<td>Logo</td>
 		<td>
 			<div class="input-append">
-	 			<input type="text" class="form-control" id="storeUrl" placeholder="http://mysite.com/thankyoupage.html" value="">
+	 			<input type="text" class="form-control" id="logo" placeholder="https://ecwid.com/logo.png" value="">
 	 			<a class="input-addon"></a>
 			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>Country</td>
+		<td>
+			<select class="form-control" id="country">
+				<option value="NG">Nigeria</option>
+				<option value="KE">Kenya</option>
+				<option value="GH">Ghana</option>
+				<option value="ZA">South Africa</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Payment Method</td>
+		<td>
+			<select class="form-control" id="pm">
+				<option value="both">All</option>
+				<option value="card">Cards Only</option>
+				<option value="account">Account Only</option>
+				<option value="ussd">USSD Only</option>
+			</select>
 		</td>
 	</tr>
 	<tr id="delay">
@@ -116,7 +194,7 @@ function selected() {
 	<tr>
 		<td id="saving" colspan='2'>
 		<button class="btn btn-primary btn-large" onClick="saveUserData();" id="save">
-	<span><script>document.write(languagePack[lang].save);</script></span>  
+	<span>Save</span>  
     <div class="loader">
         <div class="spinner spin-right">
             <svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -130,16 +208,6 @@ function selected() {
 		</td>
 	</tr>
 </table>
-
-<script>
-
-// Add hidden text labels for accessibility with translations
-	document.getElementById('storeUrl').setAttribute('aria-label',languagePack[lang].storeUrl);
-	document.getElementById('save').setAttribute('aria-label',languagePack[lang].save);
-	document.getElementById('delay').setAttribute('aria-label',languagePack[lang].delay);
-	document.getElementById('enabled').setAttribute('aria-label',languagePack[lang].enabled);
-
-</script>
 
 </body>
 </html>

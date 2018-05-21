@@ -48,7 +48,7 @@ session_start(); ?>
   $result = json_decode(json_encode($data), false);
 
 
-  if ($result->merchantAppSettings->env != "live") {
+  if (!$result->merchantAppSettings->env) {
     $secretKey = $result->merchantAppSettings->testSecretKey;
     $publicKey = $result->merchantAppSettings->testPublicKey;
     $env = "staging";

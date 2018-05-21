@@ -23,16 +23,54 @@ input#delay {
 	text-align: center;
 }
 
+.header {
+	margin: 40px auto;
+}
+
+.header h1 {
+	margin: 0 auto 7px;
+}
+
+.header p {
+	text-align: center;
+	font-size: 0.8em;
+	color: #929292;
+}
+
+.pad-b-null {
+	padding-bottom: 0px;
+}
+
+#checkbox {
+	padding-bottom: 25px;
+}
+
+.danger {
+	margin-top: 7px;
+    display: inline-block;
+    font-size: 0.7em;
+    color: #bf0d0d;
+}
+
+td {
+	vertical-align: top;
+}
+
+.get {
+	text-align: center;
+}
+
 td {
 	padding: 15px;
 	text-align: center;
 }
 
-tr:nth-child(2) {
-	visibility: hidden;
+.live,
+#live-keys {
+	display: none;
 }
 
-td:nth-child(2) {
+td {
 	text-align: left;
 }
 

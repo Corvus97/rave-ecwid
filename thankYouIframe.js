@@ -40,10 +40,23 @@ function createUserData() {
 		console.log('Public config saved!');
 	});
 
-	document.getElementById('storeUrl').value = initialConfig.storeUrl;
+	document.getElementById('testSecretKey').value = initialConfig.testSecretKey;
+	document.getElementById('testPublicKey').value = initialConfig.testPublicKey;
+	document.getElementById('liveSecretKey').value = initialConfig.liveSecretKey;
+	document.getElementById('livePublicKey').value = initialConfig.livePublicKey;
+	document.getElementById('country').value = initialConfig.country;
+	document.getElementById('pm').value = initialConfig.pm;
+	document.getElementById('env').checked = initialConfig.env;
+	document.querySelector("#testPub").style.display = 'table-row';
+	document.querySelector("#testSec").style.display = 'table-row';
+	document.querySelector("#test-keys").style.display = 'block';
+	document.querySelector("#livePK").disabled = true;
+	document.querySelector("#liveSK").disabled = true;
+	document.querySelector("#livePub").style.display = 'none';
+	document.querySelector("#liveSec").style.display = 'none';
+	document.querySelector("#live-keys").style.display = 'none';
 	document.getElementById('delay').value = initialConfig.delay;
-	document.getElementById('enabled').checked = initialConfig.enabled;
-	document.querySelector("tr:nth-child(2)").style.visibility = 'hidden';
+
 
 	// Setting flag to determine that we already created and saved defaults for this user
 	var appExists = {
@@ -67,8 +80,14 @@ function getUserData() {
 	EcwidApp.getAppStorage('public', function(config){
 		config = JSON.parse(config);
 
-		loadedConfig.storeUrl = config.storeUrl;
-		loadedConfig.enabled = config.enabled;
+		loadedConfig.testSecretKey = config.testSecretKey;
+		loadedConfig.testPublicKey = config.testPublicKey;
+		loadedConfig.liveSecretKey = config.liveSecretKey;
+		loadedConfig.livePublicKey = config.livePublicKey;
+		loadedConfig.logo = config.logo;
+		loadedConfig.country = config.country;
+		loadedConfig.pm = config.pm;
+		loadedConfig.env = config.env;
 		loadedConfig.delay = config.delay;
 
 		console.log(loadedConfig);
@@ -76,15 +95,34 @@ function getUserData() {
 
 	setTimeout(function(){
 
-		document.getElementById('storeUrl').value = loadedConfig.storeUrl;
-		document.getElementById('storeUrl').disabled = !loadedConfig.enabled;
+		document.getElementById('testSecretKey').value = loadedConfig.testSecretKey;
+		document.getElementById('testSecretKey').disabled = loadedConfig.env;
+		document.getElementById('testPublicKey').value = loadedConfig.testPublicKey;
+		document.getElementById('testPublicKey').disabled = loadedConfig.env;
+		document.getElementById('liveSecretKey').value = loadedConfig.liveSecretKey;
+		document.getElementById('liveSecretKey').disabled = !loadedConfig.env;
+		document.getElementById('livePublicKey').value = loadedConfig.livePublicKey;
+		document.getElementById('livePublicKey').disabled = !loadedConfig.env;
+		document.getElementById('country').value = loadedConfig.country;
+		document.getElementById('pm').value = loadedConfig.pm;
+		document.getElementById('logo').value = loadedConfig.logo;
+		document.getElementById('env').checked = loadedConfig.env;
 		document.getElementById('delay').value = loadedConfig.delay;
-		document.getElementById('enabled').checked = loadedConfig.enabled;
 
-		if (loadedConfig.enabled) {
-			document.querySelector("tr:nth-child(2)").style.visibility = 'visible';
+		if (loadedConfig.env) {
+			document.querySelector("#testPub").style.display = 'none';
+			document.querySelector("#testSec").style.display = 'none';
+			document.querySelector("#test-keys").style.display = 'none';
+			document.querySelector("#livePub").style.display = 'table-row';
+			document.querySelector("#liveSec").style.display = 'table-row';
+			document.querySelector("#live-keys").style.display = 'block';
 		} else {
-			document.querySelector("tr:nth-child(2)").style.visibility = 'hidden';
+			document.querySelector("#testPub").style.display = 'table-row';
+			document.querySelector("#testSec").style.display = 'table-row';
+			document.querySelector("#test-keys").style.display = 'block';
+			document.querySelector("#livePub").style.display = 'none';
+			document.querySelector("#liveSec").style.display = 'none';
+			document.querySelector("#live-keys").style.display = 'none';
 		}
 
 	}, 1000);
@@ -104,21 +142,42 @@ function saveUserData() {
 		d.className = "btn btn-primary btn-large";
 	},500)
 
+
+		loadedConfig.testSecretKey = config.testSecretKey;
+		loadedConfig.testPublicKey = config.testPublicKey;
+		loadedConfig.liveSecretKey = config.liveSecretKey;
+		loadedConfig.livePublicKey = config.livePublicKey;
+		loadedConfig.logo = config.logo;
+		loadedConfig.country = config.country;
+		loadedConfig.pm = config.pm;
+		loadedConfig.env = config.env;
+
 	var saveData = {
-		storeUrl: loadedConfig.storeUrl,
-		enabled: loadedConfig.enabled,
+		testSecretKey: loadedConfig.testSecretKey,
+		testPublicKey: loadedConfig.testPublicKey,
+		liveSecretKey: loadedConfig.liveSecretKey,
+		livePublicKey: loadedConfig.livePublicKey,
+		logo: loadedConfig.logo,
+		country: loadedConfig.country,
+		pm: loadedConfig.pm,
+		env: loadedConfig.env,
 		delay: loadedConfig.delay
 	}
 
-	saveData.storeUrl = document.getElementById('storeUrl').value;
-	saveData.enabled = document.getElementById('enabled').checked;
-	saveData.delay = parseInt(document.getElementById('delay').value);
+	saveData.testSecretKey = document.getElementById('testSecretKey').value;
+	saveData.testPublicKey = document.getElementById('testPublicKey').value;
+	saveData.liveSecretKey = document.getElementById('liveSecretKey').value;
+	saveData.livePublicKey = document.getElementById('livePublicKey').value;
+	saveData.logo = document.getElementById('logo').value;
+	saveData.country = document.getElementById('country').value;
+	saveData.pm = document.getElementById('pm').value;
+	saveData.env = document.getElementById('env').checked;
 
 	if (isNaN(saveData.delay)) {
 		saveData.delay = 0;
 	}
 
-	var dataToSave = '{"storeUrl": "'+ saveData.storeUrl + '", "enabled": '+ saveData.enabled +', "delay":'+ saveData.delay +'}';
+	var dataToSave = '{"testSecretKey": "'+ saveData.testSecretKey + '", "testPublicKey": "'+ saveData.testPublicKey + '", "liveSecretKey": "'+ saveData.liveSecretKey + '", "livePublicKey": "'+ saveData.livePublicKey + '", "logo": "'+ saveData.logo + '", "country": "'+ saveData.country + '", "pm": "'+ saveData.pm + '", "env": '+ saveData.env +', "delay":'+ saveData.delay +'}';
 
 	EcwidApp.setAppPublicConfig(dataToSave, function(){
 		console.log('Public config saved!');
@@ -136,3 +195,6 @@ EcwidApp.getAppStorage('exists', function(value){
   		createUserData();
   }
 })
+
+
+

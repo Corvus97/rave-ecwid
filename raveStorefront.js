@@ -17,8 +17,10 @@ var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
     xmlHttp.send( null );
     
-    console.log(JSON.parse(xmlHttp.responseText));
+    var result = JSON.parse(xmlHttp.responseText);
 
+    console.log(result.payment.paymentOptions);
+    
 
     var customStyleForPaymentIcons = document.createElement('style');
     customStyleForPaymentIcons.innerHTML = ".ecwid-PaymentMethodsBlockSvgCustom { width: 100%; display: inline-block; height: auto;}";

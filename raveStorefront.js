@@ -33,6 +33,8 @@ Ecwid.OnAPILoaded.add(function () {
 
     // Function to process the payment page
 
+    console.log("Flamez");
+
     var ecwidUpdatePaymentData = function () {
         var optionsContainers = document.getElementsByClassName('ecwid-Checkout')[0].getElementsByClassName('ecwid-PaymentMethodsBlock-PaymentOption');
 
@@ -69,6 +71,7 @@ Ecwid.OnAPILoaded.add(function () {
         }
     }
 
+    console.log(page.type);
 
 
     if (page.type == "CHECKOUT_PAYMENT_DETAILS") {

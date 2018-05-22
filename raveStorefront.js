@@ -36,7 +36,7 @@ Ecwid.OnAPILoaded.add(function () {
     // Set your custom icons or use your own URLs to icons here
 
     var iconsSrcList = [
-        'https://djqizrxa6f10j.cloudfront.net/apps/ecwid-api-docs/payment-icons-svg/paypal.svg',
+        'https://rave.deatt.com/rave.png',
         'https://djqizrxa6f10j.cloudfront.net/apps/ecwid-api-docs/payment-icons-svg/mastercard.svg',
         'https://djqizrxa6f10j.cloudfront.net/apps/ecwid-api-docs/payment-icons-svg/visa.svg',
         'https://djqizrxa6f10j.cloudfront.net/apps/ecwid-api-docs/payment-icons-svg/amex.svg'

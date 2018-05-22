@@ -1,7 +1,21 @@
-table {
+* {
+	box-sizing: border-box;
+}
+.cont {
 	margin: 0px auto;
-	padding: 50px 0;
-	width: 50%;
+	padding: 20px 0;
+	width: 100%;
+}
+
+.col {
+	width: 100%;
+	vertical-align: top;
+	padding: 0 15px;
+	display: inline-block;
+}
+
+.row {
+	margin: 15px auto;
 }
 
 h1 {
@@ -52,16 +66,7 @@ input#delay {
     color: #bf0d0d;
 }
 
-td {
-	vertical-align: top;
-}
-
 .get {
-	text-align: center;
-}
-
-td {
-	padding: 15px;
 	text-align: center;
 }
 
@@ -81,4 +86,14 @@ p {
 
 #delay {
 	display: none;
+}
+
+@media screen and (min-width: 992px) {
+  .cont {
+		padding: 50px 0;
+		width: 50%;
+	}
+	.col {
+		width: 48%;
+	}
 }

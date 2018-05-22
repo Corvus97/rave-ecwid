@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <script src="https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/js/1.2.1/ecwid-app.js"></script>
 <link rel="stylesheet" href="https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.2.2/ecwid-app-ui.css"/>
-<link rel="stylesheet" href="thankYouIframe.css"/>
+<link rel="stylesheet" href="raveIframe.css"/>
 
 <script>
     // Initialize the application
@@ -19,31 +19,6 @@
 	var storeId = storeData.store_id;
 	var accessToken = storeData.access_token;
 	var lang = storeData.lang;
-
-	// Interface translations
-
-	// var en = {
-	// 	title: "Flutterwave Rave",
-	// 	storeUrl: "Redirect destination URL",
-	// 	enabled: "Enable the redirect",
-	// 	delay: "Delay before redirect (milliseconds)",
-	// 	save: "Save settings",
-	// 	enabledCheck: "enabled",
-	// 	enabledUnCheck: "disabled",
-	// 	description: "Once enabled, your customers will be redirected to the specified destination URL after their order is placed."
-	// }
-
-	// Load translations depending on language of Ecwid CP
-	// var languagePack = [ru, en];
-
-	// if (lang == 'ru') {
-	// 	lang = 0;
-	// 	document.querySelector('html').setAttribute('lang','ru');
-	// } else {
-	// 	lang = 1;
-	// 	document.querySelector('html').setAttribute('lang','en');
-	// }
-	// document.querySelector('html').setAttribute('lang','en');
 </script>
 
 <script>
@@ -58,14 +33,14 @@ function selected() {
 		document.querySelector("#test-keys").style.display = 'none';
 		document.querySelector("#livePublicKey").disabled = false;
 		document.querySelector("#liveSecretKey").disabled = false;
-		document.querySelector("#livePub").style.display = 'table-row';
-		document.querySelector("#liveSec").style.display = 'table-row';
+		document.querySelector("#livePub").style.display = 'block';
+		document.querySelector("#liveSec").style.display = 'block';
 		document.querySelector("#live-keys").style.display = 'block';
 		document.querySelector("#testPublicKey").disabled = true;
 		document.querySelector("#testSecretKey").disabled = true;
 	} else {
-		document.querySelector("#testPub").style.display = 'table-row';
-		document.querySelector("#testSec").style.display = 'table-row';
+		document.querySelector("#testPub").style.display = 'block';
+		document.querySelector("#testSec").style.display = 'block';
 		document.querySelector("#test-keys").style.display = 'block';
 		document.querySelector("#livePublicKey").disabled = true;
 		document.querySelector("#liveSecretKey").disabled = true;
@@ -91,12 +66,12 @@ function selected() {
 
 <p id="live-keys" class="get">Get your Live API keys <a target="_blank" href="https://rave.flutterwave.com/dashboard/settings/apis">here</a></p>
 
-<table>
-	<tr>
+<div class="cont">
+	<div class="row">
 	<!-- Select the mode of the application -->
 
-		<td>Test/Live</td>
-		<td id="checkbox">
+		<div class="col">Test/Live</div>
+		<div class="col" id="checkbox">
 			<label class="checkbox big">
 	    		<input type="checkbox" name="" id="env" onchange="selected()">
 	    			<div data-on="live" data-off="test">
@@ -104,95 +79,95 @@ function selected() {
 	    		</div>
 			</label>
 			<br>
-		</td>
-	</tr>
-	<tr class="test" id="testPub">
+		</div>
+	</div>
+	<div class="test row" id="testPub">
 		<!-- Field to set the test public key -->
-		<td>Test Public Key</td>
-		<td class="pad-b-null">
+		<div class="col">Test Public Key</div>
+		<div class="col pad-b-null">
 			<div class="input-append">
 	 			<input type="text" class="form-control" id="testPublicKey" placeholder="FLWPUBK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X" value="">
 	 			<a class="input-addon"></a>
 			</div>
 			<span class="danger">*required</span>
-		</td>
-	</tr>
-	<tr class="test"  id="testSec">
+		</div>
+	</div>
+	<div class="test row"  id="testSec">
 		<!-- Field to set the test secret key -->
-		<td>Test Secret Key</td>
-		<td class="pad-b-null">
+		<div class="col">Test Secret Key</div>
+		<div class="col pad-b-null">
 			<div class="input-append">
 	 			<input type="text" class="form-control" id="testSecretKey" placeholder="FLWSECK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X" value="">
 	 			<a class="input-addon"></a>
 			</div>
 			<span class="danger">*required</span>
-		</td>
-	</tr>
-	<tr class="live" id="livePub">
+		</div>
+	</div>
+	<div class="live row" id="livePub">
 		<!-- Field to set the live public key -->
-		<td>Live Public Key</td>
-		<td class="pad-b-null">
+		<div class="col">Live Public Key</div>
+		<div class="col pad-b-null">
 			<div class="input-append">
 	 			<input type="text" class="form-control" id="livePublicKey" placeholder="FLWPUBK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X" value="">
 	 			<a class="input-addon"></a>
 			</div>
 			<span class="danger">*required</span>
-		</td>
-	</tr>
-	<tr class="live" id="liveSec">
+		</div>
+	</div>
+	<div class="live row" id="liveSec">
 		<!-- Field to set the live secret key -->
-		<td>Live Secret Key</td>
-		<td class="pad-b-null">
+		<div class="col">Live Secret Key</div>
+		<div class="col pad-b-null">
 			<div class="input-append">
 	 			<input type="text" class="form-control" id="liveSecretKey" placeholder="FLWSECK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X" value="">
 	 			<a class="input-addon"></a>
 			</div>
 			<span class="danger">*required</span>
-		</td>
-	</tr>
-	<tr>
+		</div>
+	</div>
+	<div class="row">
 		<!-- Field to set the logo -->
-		<td>Logo</td>
-		<td>
+		<div class="col">Logo</div>
+		<div class="col">
 			<div class="input-append">
 	 			<input type="text" class="form-control" id="logo" placeholder="https://ecwid.com/logo.png" value="">
 	 			<a class="input-addon"></a>
 			</div>
-		</td>
-	</tr>
-	<tr>
-		<td>Country</td>
-		<td>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">Country</div>
+		<div class="col">
 			<select class="form-control" id="country">
 				<option value="NG">Nigeria</option>
 				<option value="KE">Kenya</option>
 				<option value="GH">Ghana</option>
 				<option value="ZA">South Africa</option>
 			</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Payment Method</td>
-		<td>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">Payment Method</div>
+		<div class="col">
 			<select class="form-control" id="pm">
 				<option value="both">All</option>
 				<option value="card">Cards Only</option>
 				<option value="account">Account Only</option>
 				<option value="ussd">USSD Only</option>
 			</select>
-		</td>
-	</tr>
-	<tr id="delay">
-		<td>Lang Pack</td>
-		<td>
+		</div>
+	</div>
+	<div class="row" id="delay">
+		<div>Lang Pack</div>
+		<div>
 			<!-- Hidden delay before redirect feature input -->
 			<div>
  				<input type="number" class="form-control" id="delay" placeholder="5000" value="">
 			</div>
-		</td>
-	</tr>
-	<tr>
-		<td id="saving" colspan='2'>
+		</div>
+	</div>
+	<div>
+		<div id="saving">
 		<button class="btn btn-primary btn-large" onClick="saveUserData();" id="save">
 	<span>Save</span>  
     <div class="loader">
@@ -205,9 +180,9 @@ function selected() {
         </div>
     </div>
 </button>
-		</td>
-	</tr>
-</table>
+		</div>
+	</div>
+</div>
 
 </body>
 </html>

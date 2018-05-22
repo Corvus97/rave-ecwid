@@ -1,12 +1,21 @@
-// Set payment method title that matches merchant's payment method title set in Ecwid Control Panel. Use public token to get it from store profile
 
+
+// Execute the code after the necessary page has loaded
+Ecwid.OnAPILoaded.add(function () {
+    // Set payment method title that matches merchant's payment method title set in Ecwid Control Panel. Use public token to get it from store profile
     var paymentMethodTitle = "Rave";
 
 // Custom styles for icons for our application
 
 
 var publicToken = Ecwid.getAppPublicToken('rave-payments');
+
+    console.log("API is loaded")
 var storeId = Ecwid.getOwnerId('rave-payments');
+
+console.log(storeId);
+
+
 var theUrl = `https://app.ecwid.com/api/v3/${storeId}/profile?token=${publicToken}`;
 
 var xmlHttp = new XMLHttpRequest();
@@ -71,10 +80,6 @@ var xmlHttp = new XMLHttpRequest();
         }
     }
 
-
-// Execute the code after the necessary page has loaded
-
-    Ecwid.OnPageLoaded.add(function(page){
         if(page.type == "CHECKOUT_PAYMENT_DETAILS"){
             ecwidUpdatePaymentData();
         }

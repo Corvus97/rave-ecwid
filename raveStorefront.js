@@ -37,8 +37,13 @@ Ecwid.OnAPILoaded.add(function () {
         var optionsContainers = document.getElementsByClassName('ecwid-Checkout')[0].getElementsByClassName('ecwid-PaymentMethodsBlock-PaymentOption');
 
         for (var i = 0; i < optionsContainers.length; i++) {
+            console.log("Flamez");
+            
             var radioContainer = optionsContainers[i].getElementsByClassName('gwt-RadioButton')[0];
             var label = radioContainer.getElementsByTagName('label')[0];
+
+            console.log("");
+            
 
             // If current payment method title matches the one you need
 

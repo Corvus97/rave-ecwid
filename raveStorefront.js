@@ -44,6 +44,8 @@ Ecwid.OnAPILoaded.add(function () {
 
             if (paymentMethodTitle && label.innerHTML.indexOf(paymentMethodTitle) !== -1) {
                 var container = getPaymentContainer(label);
+                console.log("i'm here");
+                
                 if (
                     container
                     && container.getElementsByTagName('img').length === 0

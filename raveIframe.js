@@ -65,8 +65,8 @@ function createUserData() {
 	document.getElementById('country').value = initialConfig.country;
 	document.getElementById('pm').value = initialConfig.pm;
 	document.getElementById('env').checked = initialConfig.env;
-	document.querySelector("#testPub").style.display = 'table-row';
-	document.querySelector("#testSec").style.display = 'table-row';
+	document.querySelector("#testPub").style.display = 'block';
+	document.querySelector("#testSec").style.display = 'block';
 	document.querySelector("#test-keys").style.display = 'block';
 	document.querySelector("#livePK").disabled = true;
 	document.querySelector("#liveSK").disabled = true;
@@ -129,12 +129,12 @@ function getUserData() {
 			document.querySelector("#testPub").style.display = 'none';
 			document.querySelector("#testSec").style.display = 'none';
 			document.querySelector("#test-keys").style.display = 'none';
-			document.querySelector("#livePub").style.display = 'table-row';
-			document.querySelector("#liveSec").style.display = 'table-row';
+			document.querySelector("#livePub").style.display = 'block';
+			document.querySelector("#liveSec").style.display = 'block';
 			document.querySelector("#live-keys").style.display = 'block';
 		} else {
-			document.querySelector("#testPub").style.display = 'table-row';
-			document.querySelector("#testSec").style.display = 'table-row';
+			document.querySelector("#testPub").style.display = 'block';
+			document.querySelector("#testSec").style.display = 'block';
 			document.querySelector("#test-keys").style.display = 'block';
 			document.querySelector("#livePub").style.display = 'none';
 			document.querySelector("#liveSec").style.display = 'none';

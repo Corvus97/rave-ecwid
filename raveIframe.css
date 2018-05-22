@@ -80,7 +80,7 @@ td {
 }
 
 p {
-	width: 70%;
+	width: 65%;
 	margin: 0px auto;
 }
 
@@ -91,7 +91,7 @@ p {
 @media screen and (min-width: 450px) {
   .cont {
 		padding: 50px 0;
-		width: 70%;
+		width: 65%;
 	}
 	.col {
 		width: 48%;

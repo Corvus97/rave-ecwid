@@ -27,7 +27,7 @@ Ecwid.OnAPILoaded.add(function () {
     
 
     var customStyleForPaymentIcons = document.createElement('style');
-    customStyleForPaymentIcons.innerHTML = ".ecwid-PaymentMethodsBlockSvgCustom { display: inline-block; max-width: 100%; min-height: 120px;}";
+    customStyleForPaymentIcons.innerHTML = ".ecwid-PaymentMethodsBlockSvgCustom { display: inline-block; max-width: 100%; min-height: 50px;}";
 
     document.querySelector('body').appendChild(customStyleForPaymentIcons);
 

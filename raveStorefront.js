@@ -1,6 +1,6 @@
 
 // Execute the code after the necessary page has loaded
-Ecwid.OnAPILoaded.add(function () {
+Ecwid.OnAPILoaded.add(function (page) {
     // Set payment method title that matches merchant's payment method title set in Ecwid Control Panel. Use public token to get it from store profile
     var paymentMethodTitle = "Rave";
 

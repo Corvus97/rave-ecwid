@@ -10,19 +10,14 @@ Ecwid.OnAPILoaded.add(function () {
 
 var publicToken = Ecwid.getAppPublicToken('rave-payments');
 
-    console.log("API is loaded")
 var storeId = Ecwid.getOwnerId('rave-payments');
-
-console.log(storeId);
-
-
 var theUrl = `https://app.ecwid.com/api/v3/${storeId}/profile?token=${publicToken}`;
 
 var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
     xmlHttp.send( null );
     
-    console.log(xmlHttp.responseText);
+    console.log(JSON.parse(xmlHttp.responseText));
 
 
     var customStyleForPaymentIcons = document.createElement('style');

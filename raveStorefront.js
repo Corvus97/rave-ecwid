@@ -1,6 +1,6 @@
 
 // Execute the code after the necessary page has loaded
-Ecwid.OnAPILoaded.add(function (page) {
+Ecwid.OnAPILoaded.add(function () {
     // Set payment method title that matches merchant's payment method title set in Ecwid Control Panel. Use public token to get it from store profile
     var paymentMethodTitle = "Rave";
 
@@ -33,7 +33,7 @@ Ecwid.OnAPILoaded.add(function (page) {
 
     // Function to process the payment page
 
-    console.log("Flamez");
+            console.log("Flamez");
 
     var ecwidUpdatePaymentData = function () {
         var optionsContainers = document.getElementsByClassName('ecwid-Checkout')[0].getElementsByClassName('ecwid-PaymentMethodsBlock-PaymentOption');
@@ -71,10 +71,11 @@ Ecwid.OnAPILoaded.add(function (page) {
         }
     }
 
-    console.log(page.type);
+    // Execute the code after the necessary page has loaded
+    Ecwid.OnPageLoaded.add(function (page) {
+        if (page.type == "CHECKOUT_PAYMENT_DETAILS") {
+            ecwidUpdatePaymentData();
+        }
+    })
 
-
-    if (page.type == "CHECKOUT_PAYMENT_DETAILS") {
-        ecwidUpdatePaymentData();
-    }
 })

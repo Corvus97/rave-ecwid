@@ -88,7 +88,7 @@ p {
 	display: none;
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 450px) {
   .cont {
 		padding: 50px 0;
 		width: 50%;

@@ -4,6 +4,30 @@ Ecwid.OnAPILoaded.add(function () {
     // Set payment method title that matches merchant's payment method title set in Ecwid Control Panel. Use public token to get it from store profile
     var paymentMethodTitle = "Rave";
 
+    var publicToken = Ecwid.getAppPublicToken('rave-payments');
+
+    var storeId = Ecwid.getOwnerId('rave-payments');
+    var theUrl = `https://app.ecwid.com/api/v3/${storeId}/profile?token=${publicToken}`;
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", theUrl, false); // false for synchronous request
+    xmlHttp.send(null);
+
+    var result = JSON.parse(xmlHttp.responseText);
+
+    var paymentOptions = result.payment.paymentOptions;
+
+    for (var i = 0; i < paymentOptions.length; i++) {
+        var obj = paymentOptions[i];
+
+        if (obj.appClientId == "rave-payments") {
+            paymentMethodTitle = obj.checkoutTitle;
+        }
+    }
+
+    console.log(paymentMethodTitle);
+    
+
     var customStyleForPaymentIcons = document.createElement('style');
     customStyleForPaymentIcons.innerHTML = ".ecwid-PaymentMethodsBlockSvgCustom { display: inline-block; width: 40px; height: 26px; background-color: #fff !important; border: 1px solid #e2e2e2 !important;}";
 
@@ -33,25 +57,19 @@ Ecwid.OnAPILoaded.add(function () {
 
     // Function to process the payment page
 
-            console.log("Flamez");
-
     var ecwidUpdatePaymentData = function () {
         var optionsContainers = document.getElementsByClassName('ecwid-Checkout')[0].getElementsByClassName('ecwid-PaymentMethodsBlock-PaymentOption');
 
         for (var i = 0; i < optionsContainers.length; i++) {
-            console.log("Flamez");
             
             var radioContainer = optionsContainers[i].getElementsByClassName('gwt-RadioButton')[0];
             var label = radioContainer.getElementsByTagName('label')[0];
-
-            console.log("");
             
 
             // If current payment method title matches the one you need
 
             if (paymentMethodTitle && label.innerHTML.indexOf(paymentMethodTitle) !== -1) {
                 var container = getPaymentContainer(label);
-                console.log("i'm here");
                 
                 if (
                     container

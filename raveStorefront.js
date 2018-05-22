@@ -21,6 +21,9 @@ var xmlHttp = new XMLHttpRequest();
 
     var paymentOptions = result.payment.paymentOptions;
 
+    console.log(paymentOptions);
+    
+
     for (var i = 0; i < paymentOptions.length; i++) {
         var obj = paymentOptions[i];
 

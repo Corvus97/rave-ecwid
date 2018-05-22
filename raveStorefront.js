@@ -19,7 +19,13 @@ var xmlHttp = new XMLHttpRequest();
     
     var result = JSON.parse(xmlHttp.responseText);
 
-    console.log(result.payment.paymentOptions);
+    var paymentOptions = result.payment.paymentOptions;
+
+    for (var i = 0; i < paymentOptions.length; i++) {
+        var obj = paymentOptions[i];
+
+        console.log(obj.appClientId);
+    }
     
 
     var customStyleForPaymentIcons = document.createElement('style');

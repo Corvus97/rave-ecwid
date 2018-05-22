@@ -21,13 +21,12 @@ var xmlHttp = new XMLHttpRequest();
 
     var paymentOptions = result.payment.paymentOptions;
 
-    console.log(paymentOptions);
-    
-
     for (var i = 0; i < paymentOptions.length; i++) {
         var obj = paymentOptions[i];
 
-        console.log(obj.appClientId);
+        if (obj.appClientId == "rave-payments") {
+            var paymentMethodTitle = obj.checkoutTitle;
+        }
     }
     
 
@@ -54,6 +53,7 @@ var xmlHttp = new XMLHttpRequest();
         }
           return container[0];
     }
+    console.log(paymentMethodTitle);
 
 // Function to process the payment page
 

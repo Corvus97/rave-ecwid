@@ -1,188 +1,581 @@
 <!doctype html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<script src="https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/js/1.2.1/ecwid-app.js"></script>
-<link rel="stylesheet" href="https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.2.2/ecwid-app-ui.css"/>
-<link rel="stylesheet" href="raveIframe.css"/>
-
-<script>
-    // Initialize the application
-    EcwidApp.init({
-      app_id: "rave-payments", 
-      autoloadedflag: true, 
-      autoheight: true
-    });
-
-	// Get store info
-	var storeData = EcwidApp.getPayload();
-	var storeId = storeData.store_id;
-	var accessToken = storeData.access_token;
-	var lang = storeData.lang;
-</script>
-
-<script>
-// Display elements depending on the app mode chosen by user
-
-function selected() {
-	var dropDown = document.querySelector(".checkbox input").checked;
-
-	if(dropDown) {
-		document.querySelector("#testPub").style.display = 'none';
-		document.querySelector("#testSec").style.display = 'none';
-		document.querySelector("#test-keys").style.display = 'none';
-		document.querySelector("#livePublicKey").disabled = false;
-		document.querySelector("#liveSecretKey").disabled = false;
-		document.querySelector("#livePub").style.display = 'block';
-		document.querySelector("#liveSec").style.display = 'block';
-		document.querySelector("#live-keys").style.display = 'block';
-		document.querySelector("#testPublicKey").disabled = true;
-		document.querySelector("#testSecretKey").disabled = true;
-	} else {
-		document.querySelector("#testPub").style.display = 'block';
-		document.querySelector("#testSec").style.display = 'block';
-		document.querySelector("#test-keys").style.display = 'block';
-		document.querySelector("#livePublicKey").disabled = true;
-		document.querySelector("#liveSecretKey").disabled = true;
-		document.querySelector("#livePub").style.display = 'none';
-		document.querySelector("#liveSec").style.display = 'none';
-		document.querySelector("#live-keys").style.display = 'none';
-		document.querySelector("#testPublicKey").disabled = false;
-		document.querySelector("#testSecretKey").disabled = false;
-	}
-}
-</script>
-
-<script src="raveIframe.js"></script>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="raveIframe.css" />
+	<link rel="stylesheet" href="https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.2/ecwid-app-ui.css" />
+	<script src="https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/js/1.2.5/ecwid-app.js"></script>
 
 </head>
-<body class="normalized">
-<div class="header">
-	<h1>Flutterwave Rave Settings</h1>
-	<p class="sub">Ensuring secure payments</p>
-</div>
 
-<p id="test-keys" class="get">Get your Test API keys <a target="_blank" href="https://ravesandbox.flutterwave.com/dashboard/settings/apis">here</a></p>
+<body id="body" class='normalized'>
 
-<p id="live-keys" class="get">Get your Live API keys <a target="_blank" href="https://rave.flutterwave.com/dashboard/settings/apis">here</a></p>
+	<!-- Back button block START -->
 
-<div class="cont">
-	<div class="row">
-	<!-- Select the mode of the application -->
+	<div onclick="goBack();" class="content-control-menu-nav">
+		<a class="horizontal-icolink icolink-small icolink-prepend">
+			<span class="icon-arr-left"></span>
+			<span class="gwt-InlineLabel">BACK</span>
+		</a>
+	</div>
 
-		<div class="col">Test/Live</div>
-		<div class="col" id="checkbox">
-			<label class="checkbox big">
-	    		<input type="checkbox" name="" id="env" onchange="selected()">
-	    			<div data-on="live" data-off="test">
-	        		<div></div>
-	    		</div>
-			</label>
-			<br>
-		</div>
-	</div>
-	<div class="test row" id="testPub">
-		<!-- Field to set the test public key -->
-		<div class="col">Test Public Key</div>
-		<div class="col pad-b-null">
-			<div class="input-append">
-	 			<input type="text" class="form-control" id="testPublicKey" placeholder="FLWPUBK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X" value="">
-	 			<a class="input-addon"></a>
+	<!-- Back button block END -->
+
+	<!-- Main app block START -->
+
+	<div class="settings-page main">
+		<div class="settings-page__header">
+			<div class="settings-page__titles settings-page__titles--left">
+				<h1 class="settings-page__title">Rave Payments</h1>
+				<div class="settings-page__subtitle">The easy way to collect payments from customers anywhere in the world.</div>
 			</div>
-			<span class="danger">*required</span>
-		</div>
-	</div>
-	<div class="test row"  id="testSec">
-		<!-- Field to set the test secret key -->
-		<div class="col">Test Secret Key</div>
-		<div class="col pad-b-null">
-			<div class="input-append">
-	 			<input type="text" class="form-control" id="testSecretKey" placeholder="FLWSECK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X" value="">
-	 			<a class="input-addon"></a>
+
+			<!-- Country Not Available info START -->
+			
+			<div id="no-country" class="alert alert-danger alert-icon">
+				<div class="alert-inner">
+					<div class="alert-content">
+						<div class="icon">
+							<span class="svg-icon">
+								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+									viewBox="0 0 70 70" style="enable-background:new 0 0 70 70;" xml:space="preserve">
+								<path d="M34.5,67h-0.1c-8.7,0-16.8-3.5-22.9-9.6S2,43.1,2,34.4C2.1,16.5,16.6,2,34.5,2h0.1c8.7,0,16.8,3.4,22.9,9.6
+									c6.1,6.2,9.5,14.3,9.4,23C66.9,52.5,52.3,67,34.5,67z M34.5,5C18.3,5,5.1,18.2,5,34.4c0,7.9,3,15.3,8.6,20.9S26.5,64,34.4,64h0.1
+									C50.7,64,63.9,50.8,64,34.6c0-7.9-3-15.3-8.6-20.9C49.9,8.1,42.5,5,34.6,5H34.5z"/>
+								<g>
+									<g>
+										<path d="M49.6,51.1c-0.4,0-0.8-0.1-1.1-0.4L18.4,20.5c-0.6-0.6-0.6-1.5,0-2.1c0.6-0.6,1.5-0.6,2.1,0l30.2,30.2
+											c0.6,0.6,0.6,1.5,0,2.1C50.3,50.9,50,51.1,49.6,51.1z"/>
+									</g>
+									<g>
+										<path d="M19.2,50.8c-0.4,0-0.8-0.2-1.1-0.5c-0.6-0.6-0.6-1.5,0-2.1l30.7-29.6c0.6-0.6,1.5-0.6,2.1,0c0.6,0.6,0.6,1.5,0,2.1
+											L20.2,50.4C19.9,50.7,19.5,50.8,19.2,50.8z"/>
+									</g>
+								</g>
+								</svg>
+							</span>
+						</div>
+						<div class="title">Sorry your country is not supported and Rave won't work well.</div>
+						<div>
+							The supported countries are 
+							<strong>Nigeria, Ghana, Kenya, United States and South Africa</strong>
+						</div>
+						<!-- <div>
+				                     	<button class="btn btn-primary" type="button">See details</button>
+				                  	</div> -->
+					</div>
+				</div>
 			</div>
-			<span class="danger">*required</span>
-		</div>
-	</div>
-	<div class="live row" id="livePub">
-		<!-- Field to set the live public key -->
-		<div class="col">Live Public Key</div>
-		<div class="col pad-b-null">
-			<div class="input-append">
-	 			<input type="text" class="form-control" id="livePublicKey" placeholder="FLWPUBK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X" value="">
-	 			<a class="input-addon"></a>
+			
+			<!-- Country Not Available info END -->
+
+
+			<!-- Country Not Available info START -->
+			
+			<div id="currencies-info" class="alert alert-danger alert-icon">
+				<div class="alert-inner">
+					<div class="alert-content">
+						<div class="icon">
+							<span class="svg-icon">
+								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+								 viewBox="0 0 70 70" style="enable-background:new 0 0 70 70;" xml:space="preserve">
+									<path d="M34.5,67h-0.1c-8.7,0-16.8-3.5-22.9-9.6S2,43.1,2,34.4C2.1,16.5,16.6,2,34.5,2h0.1c8.7,0,16.8,3.4,22.9,9.6
+												c6.1,6.2,9.5,14.3,9.4,23C66.9,52.5,52.3,67,34.5,67z M34.5,5C18.3,5,5.1,18.2,5,34.4c0,7.9,3,15.3,8.6,20.9S26.5,64,34.4,64h0.1
+												C50.7,64,63.9,50.8,64,34.6c0-7.9-3-15.3-8.6-20.9C49.9,8.1,42.5,5,34.6,5H34.5z" />
+									<g>
+										<g>
+											<path d="M49.6,51.1c-0.4,0-0.8-0.1-1.1-0.4L18.4,20.5c-0.6-0.6-0.6-1.5,0-2.1c0.6-0.6,1.5-0.6,2.1,0l30.2,30.2
+														c0.6,0.6,0.6,1.5,0,2.1C50.3,50.9,50,51.1,49.6,51.1z" />
+										</g>
+										<g>
+											<path d="M19.2,50.8c-0.4,0-0.8-0.2-1.1-0.5c-0.6-0.6-0.6-1.5,0-2.1l30.7-29.6c0.6-0.6,1.5-0.6,2.1,0c0.6,0.6,0.6,1.5,0,2.1
+														L20.2,50.4C19.9,50.7,19.5,50.8,19.2,50.8z" />
+										</g>
+									</g>
+								</svg>
+							</span>
+						</div>
+						<div class="title">Sorry your current currency is not supported.</div>
+						<div>
+							The supported currencies are
+							<strong id="supported-currencies"></strong>
+						</div>
+						<!-- <div>
+							                     	<button class="btn btn-primary" type="button">See details</button>
+							                  	</div> -->
+					</div>
+				</div>
 			</div>
-			<span class="danger">*required</span>
-		</div>
-	</div>
-	<div class="live row" id="liveSec">
-		<!-- Field to set the live secret key -->
-		<div class="col">Live Secret Key</div>
-		<div class="col pad-b-null">
-			<div class="input-append">
-	 			<input type="text" class="form-control" id="liveSecretKey" placeholder="FLWSECK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X" value="">
-	 			<a class="input-addon"></a>
+			
+			<!-- Country Not Available info END -->
+
+
+			<!-- APP SETTINGS AREA START -->
+
+			<div class="settings-page__section settings" style="padding-bottom: 0.1px">
+				<div class="settings-page__titles settings-page__titles--left">
+					<!-- <h2 class="settings-page__title">Configuration</h2>
+            <div class="settings-page__subtitle">Configure rave here. Use staging to test how rave works on your website</div> -->
+				</div>
+				<div class="named-area">
+					<div class="named-area__header">
+						<div class="named-area__titles">
+							<h4 class="named-area__title h4">Configuration</h4>
+							<span class="named-area__subtitle">Configure rave here. Use staging to test how rave works on your website</span>
+						</div>
+						<div class="named-area__description"></div>
+						<div class="named-area__additional"></div>
+					</div>
+					<div class="named-area__body">
+
+
+						<!-- Rave Environment toggle START -->
+						<!-- Check input element for example of how to set data attributes to save to storage later -->
+
+						<div class="a-card a-card--compact">
+							<div class="a-card__paddings">
+								<div class="iconable-block iconable-block--hide-in-mobile">
+									<div class="iconable-block__infographics">
+										<span class="iconable-block__icon">
+											<svg version="1.1" id="Layer_1" width="60" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+											 x="0px" y="0px" viewBox="0 0 101 28" style="enable-background:new 0 0 101 28;" xml:space="preserve">
+												<style type="text/css">
+													.st0 {
+														fill: #5B6CDE;
+													}
+												</style>
+												<g>
+													<path class="st0" d="M38,7.6L38,7.6C39.5,6,41.5,5,44,5v4.1c-2.6,0.1-4.6,1.1-6,3V23h-4V11.6C34,11.6,38,7.6,38,7.6z M58.9,5.4H63
+																						v17.3h-4.1v-1.2c-1.5,1-3.4,1.6-5.2,1.6c-4.9,0-8.6-4-8.6-9s3.9-9,8.6-9c2.1,0,3.9,0.6,5.2,1.6C58.9,6.6,58.9,5.4,58.9,5.4z
+																						 M54.2,20c1.9,0,3.5-0.6,4.8-2.5v-6C57.8,9.6,56,9,54.2,9c-3,0-5.2,2.6-5.2,5.5C49,17.5,51.1,20,54.2,20z M84,5l-7.7,17h-3.7L65,5
+																						h4.4l5.2,11.7L79.8,5H84z M94.7,19.3L90.8,23c-4.1-0.9-6.8-4.5-6.8-8.8C84,8.9,87.5,5,92.8,5c4.7,0,8.1,3.5,8.2,8.8
+																						c0,0.6,0,1-0.1,1.3H88c0.4,2.4,2,4.3,5,4.3C93.7,19.5,94.2,19.4,94.7,19.3L94.7,19.3z M92.8,9c-2.8,0-4.3,1.6-4.8,4h9
+																						C96.8,10.5,95.3,9,92.8,9z M19.4,11.9c3.6-3,11.1-13.6-0.6-11.7C13.7,1,6.2,5.9,4.7,11.5C3.9,10,3,8.5,2.1,7.1
+																						c-1.4-1.9-3-0.4-1.5,1.5C5.1,14.3,8.1,21.1,8.1,28c0.4-3.4-0.2-7.6-1.6-11.6c0.7,0.2,1.4,0.3,2.1,0.3c2.4,3.8,6,7.1,10.2,8.7
+																						c3.7,1.5,8.7,0.6,6.7-5.3C24.4,16.8,21.9,13.9,19.4,11.9L19.4,11.9z M20.3,2c6.6-0.7-0.5,7.4-2.8,9c-2.2-1.4-4.8-2.6-7.5-2.3
+																						C11.9,6.3,16.5,2.5,20.3,2z M9.6,10c1.9-0.2,3.9,0.8,5.4,1.8c-1.5,0.7-3.2,1.1-4.8,1.2C7.7,13,7.2,10.2,9.6,10z M18.9,22.8
+																						c-3-0.9-5.8-3.3-7.9-5.8c1.7-0.3,3.3-1,4.9-1.9c0.6-0.3,1.1-0.7,1.6-1.1c1.8,1.7,3.6,3.9,4.4,6.4C22.6,23.1,20.6,23.3,18.9,22.8
+																						L18.9,22.8z" />
+												</g>
+											</svg>
+										</span>
+									</div>
+									<div class="iconable-block__content">
+										<div class="status-block">
+											<div class="status-block__central">
+												<div class="status-block__header">
+													<span class="status-block__title">Rave Environment</span>
+													<span class="status-block__extra-msg">Extra message</span>
+													<span class="status-block__edit">Edit</span>
+												</div>
+												<div class="status-block__content">
+													<p>Set Rave environment to staging or live</p>
+												</div>
+											</div>
+											<div class="status-block__actions-dropdown">
+												<div id="live-link" class="feature-element__action">
+													<a class="feature-element__button btn btn-default btn-medium" href="https://rave.flutterwave.com/dashboard/settings/apis"
+													 target="_blank">Get Live Api keys</a>
+												</div>
+												<div id="staging-link" class="feature-element__action">
+													<a class="feature-element__button btn btn-default btn-medium" href="https://ravesandbox.flutterwave.com/dashboard/settings/apis"
+													 target="_blank">Get Staging Api keys</a>
+												</div>
+											</div>
+
+											<div class="status-block__primary-action">
+												<label class="checkbox big">
+
+
+													<!-- Cash on delivery toggle. Use data attributes as below to save and update the value to/from application storage via functions.js -->
+
+													<input data-name="env" data-visibility="public" id="staging_env" class='field__input' name="" type="checkbox" checked=""
+													 onchange="selected()">
+
+													<div data-on="live" data-off="staging">
+														<div></div>
+													</div>
+													<span class="checkbox__on-text-placeholder">live</span>
+													<span class="checkbox__off-text-placeholder">staging</span>
+												</label>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Rave Environment toggle END -->
+
+
+						<!-- Check input element for example of how to set data attributes to save to storage later -->
+						<!-- Staging rave START -->
+						<div id="staging-rave" class="a-card a-card--normal">
+							<div class="a-card__paddings">
+								<div class="titled-items-list">
+									<!-- Staging Public Key START -->
+									<div class="titled-items-list__item">
+										<div class="fieldset" style="width: 100%">
+											<div class="fieldset__title">Staging Public Key</div>
+											<div class="field field--medium field--filled">
+												<span class="fieldset__svg-icon"></span>
+												<label class="field__label">Staging Public Key</label>
+
+												<!-- Instruction title input. Use data attributes as below to save and update the value to/from application storage via functions.js -->
+												<input data-name="testPublicKey" data-visibility="private" type="text" class="field__input" tabindex="4" maxlength="64">
+
+
+												<div class="field__placeholder">FLWPUBK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X</div>
+												<span class="field-state--success">
+													<svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 26 26" focusable="false">
+														<path d="M5 12l5.02 4.9L21.15 4c.65-.66 1.71-.66 2.36 0 .65.67.65 1.74 0 2.4l-12.3 14.1c-.33.33-.76.5-1.18.5-.43 0-.86-.17-1.18-.5l-6.21-6.1c-.65-.66-.65-1.74 0-2.41.65-.65 1.71-.65 2.36.01z"></path>
+													</svg>
+												</span>
+												<span class="field-state--close">
+													<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 16 16" enable-background="new 0 0 16 16"
+													 xml:space="preserve" focusable="false">
+														<path d="M15.6,15.5c-0.53,0.53-1.38,0.53-1.91,0L8.05,9.87L2.31,15.6c-0.53,0.53-1.38,0.53-1.91,0c-0.53-0.53-0.53-1.38,0-1.9l5.65-5.64L0.4,2.4c-0.53-0.53-0.53-1.38,0-1.91c0.53-0.53,1.38-0.53,1.91,0l5.64,5.63l5.74-5.73c0.53-0.53,1.38-0.53,1.91,0c0.53,0.53,0.53,1.38,0,1.91L9.94,7.94l5.66,5.65C16.12,14.12,16.12,14.97,15.6,15.5z"></path>
+													</svg>
+												</span>
+											</div>
+											<div class="field__error" aria-hidden="true" style="display: none;"></div>
+											<div class="fieldset__note">*Required</div>
+										</div>
+									</div>
+									<!-- Staging Public Key END -->
+
+									<!-- Staging Secret Key START -->
+									<div class="titled-items-list__item">
+										<div class="fieldset" style="width: 100%">
+											<div class="fieldset__title">Staging Secret Key</div>
+											<div class="field field--medium field--filled">
+												<span class="fieldset__svg-icon"></span>
+												<label class="field__label">Staging Secret Key</label>
+
+												<!-- Instruction title input. Use data attributes as below to save and update the value to/from application storage via functions.js -->
+												<input data-name="testSecretKey" data-visibility="private" type="text" class="field__input" tabindex="4" maxlength="64">
+
+
+												<div class="field__placeholder">FLWSECK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X</div>
+												<span class="field-state--success">
+													<svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 26 26" focusable="false">
+														<path d="M5 12l5.02 4.9L21.15 4c.65-.66 1.71-.66 2.36 0 .65.67.65 1.74 0 2.4l-12.3 14.1c-.33.33-.76.5-1.18.5-.43 0-.86-.17-1.18-.5l-6.21-6.1c-.65-.66-.65-1.74 0-2.41.65-.65 1.71-.65 2.36.01z"></path>
+													</svg>
+												</span>
+												<span class="field-state--close">
+													<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 16 16" enable-background="new 0 0 16 16"
+													 xml:space="preserve" focusable="false">
+														<path d="M15.6,15.5c-0.53,0.53-1.38,0.53-1.91,0L8.05,9.87L2.31,15.6c-0.53,0.53-1.38,0.53-1.91,0c-0.53-0.53-0.53-1.38,0-1.9l5.65-5.64L0.4,2.4c-0.53-0.53-0.53-1.38,0-1.91c0.53-0.53,1.38-0.53,1.91,0l5.64,5.63l5.74-5.73c0.53-0.53,1.38-0.53,1.91,0c0.53,0.53,0.53,1.38,0,1.91L9.94,7.94l5.66,5.65C16.12,14.12,16.12,14.97,15.6,15.5z"></path>
+													</svg>
+												</span>
+											</div>
+											<div class="field__error" aria-hidden="true" style="display: none;"></div>
+											<div class="fieldset__note">*Required</div>
+										</div>
+									</div>
+									<!-- Staging Secret Key END -->
+								</div>
+							</div>
+						</div>
+						<!-- Staging rave END -->
+
+						<!-- Live rave START -->
+						<div id="live-rave" class="a-card a-card--normal">
+							<div class="a-card__paddings">
+								<div class="titled-items-list">
+									<!-- Live Public Key START -->
+									<div class="titled-items-list__item">
+										<div class="fieldset" style="width: 100%">
+											<div class="fieldset__title">Live Public Key</div>
+											<div class="field field--medium field--filled">
+												<span class="fieldset__svg-icon"></span>
+												<label class="field__label">Live Public Key</label>
+
+												<!-- Instruction title input. Use data attributes as below to save and update the value to/from application storage via functions.js -->
+												<input data-name="livePublicKey" data-visibility="private" type="text" class="field__input" tabindex="4" maxlength="64">
+
+
+												<div class="field__placeholder">FLWPUBK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X</div>
+												<span class="field-state--success">
+													<svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 26 26" focusable="false">
+														<path d="M5 12l5.02 4.9L21.15 4c.65-.66 1.71-.66 2.36 0 .65.67.65 1.74 0 2.4l-12.3 14.1c-.33.33-.76.5-1.18.5-.43 0-.86-.17-1.18-.5l-6.21-6.1c-.65-.66-.65-1.74 0-2.41.65-.65 1.71-.65 2.36.01z"></path>
+													</svg>
+												</span>
+												<span class="field-state--close">
+													<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 16 16" enable-background="new 0 0 16 16"
+													 xml:space="preserve" focusable="false">
+														<path d="M15.6,15.5c-0.53,0.53-1.38,0.53-1.91,0L8.05,9.87L2.31,15.6c-0.53,0.53-1.38,0.53-1.91,0c-0.53-0.53-0.53-1.38,0-1.9l5.65-5.64L0.4,2.4c-0.53-0.53-0.53-1.38,0-1.91c0.53-0.53,1.38-0.53,1.91,0l5.64,5.63l5.74-5.73c0.53-0.53,1.38-0.53,1.91,0c0.53,0.53,0.53,1.38,0,1.91L9.94,7.94l5.66,5.65C16.12,14.12,16.12,14.97,15.6,15.5z"></path>
+													</svg>
+												</span>
+											</div>
+											<div class="field__error" aria-hidden="true" style="display: none;"></div>
+											<div class="fieldset__note">*Required</div>
+										</div>
+									</div>
+									<!-- Live Public Key END -->
+
+									<!-- Live Secret Key START -->
+									<div class="titled-items-list__item">
+										<div class="fieldset" style="width: 100%">
+											<div class="fieldset__title">Live Secret Key</div>
+											<div class="field field--medium field--filled">
+												<span class="fieldset__svg-icon"></span>
+												<label class="field__label">Live Secret Key</label>
+
+												<!-- Instruction title input. Use data attributes as below to save and update the value to/from application storage via functions.js -->
+												<input data-name="liveSecretKey" data-visibility="private" type="text" class="field__input" tabindex="4" maxlength="64">
+
+
+												<div class="field__placeholder">FLWSECK-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X</div>
+												<span class="field-state--success">
+													<svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 26 26" focusable="false">
+														<path d="M5 12l5.02 4.9L21.15 4c.65-.66 1.71-.66 2.36 0 .65.67.65 1.74 0 2.4l-12.3 14.1c-.33.33-.76.5-1.18.5-.43 0-.86-.17-1.18-.5l-6.21-6.1c-.65-.66-.65-1.74 0-2.41.65-.65 1.71-.65 2.36.01z"></path>
+													</svg>
+												</span>
+												<span class="field-state--close">
+													<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 16 16" enable-background="new 0 0 16 16"
+													 xml:space="preserve" focusable="false">
+														<path d="M15.6,15.5c-0.53,0.53-1.38,0.53-1.91,0L8.05,9.87L2.31,15.6c-0.53,0.53-1.38,0.53-1.91,0c-0.53-0.53-0.53-1.38,0-1.9l5.65-5.64L0.4,2.4c-0.53-0.53-0.53-1.38,0-1.91c0.53-0.53,1.38-0.53,1.91,0l5.64,5.63l5.74-5.73c0.53-0.53,1.38-0.53,1.91,0c0.53,0.53,0.53,1.38,0,1.91L9.94,7.94l5.66,5.65C16.12,14.12,16.12,14.97,15.6,15.5z"></path>
+													</svg>
+												</span>
+											</div>
+											<div class="field__error" aria-hidden="true" style="display: none;"></div>
+											<div class="fieldset__note">*Required</div>
+										</div>
+									</div>
+									<!-- Live Secret Key END -->
+								</div>
+							</div>
+						</div>
+						<!-- Live rave END -->
+
+
+
+						<!-- Other Rave Config START -->
+						<div class="a-card a-card--normal">
+							<div class="a-card__paddings">
+								<div class="titled-items-list">
+									<!-- Logo START -->
+									<div class="titled-items-list__item">
+										<div class="fieldset" style="width: 100%">
+											<div class="fieldset__title">Logo URL</div>
+											<div class="field field--medium field--filled">
+												<span class="fieldset__svg-icon"></span>
+												<label class="field__label">Logo URL</label>
+
+												<!-- Instruction title input. Use data attributes as below to save and update the value to/from application storage via functions.js -->
+												<input data-name="logo" data-visibility="private" type="text" class="field__input" tabindex="4" maxlength="64">
+
+
+												<div class="field__placeholder">https://ecwid.com/logo.png</div>
+												<span class="field-state--success">
+													<svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 26 26" focusable="false">
+														<path d="M5 12l5.02 4.9L21.15 4c.65-.66 1.71-.66 2.36 0 .65.67.65 1.74 0 2.4l-12.3 14.1c-.33.33-.76.5-1.18.5-.43 0-.86-.17-1.18-.5l-6.21-6.1c-.65-.66-.65-1.74 0-2.41.65-.65 1.71-.65 2.36.01z"></path>
+													</svg>
+												</span>
+												<span class="field-state--close">
+													<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 16 16" enable-background="new 0 0 16 16"
+													 xml:space="preserve" focusable="false">
+														<path d="M15.6,15.5c-0.53,0.53-1.38,0.53-1.91,0L8.05,9.87L2.31,15.6c-0.53,0.53-1.38,0.53-1.91,0c-0.53-0.53-0.53-1.38,0-1.9l5.65-5.64L0.4,2.4c-0.53-0.53-0.53-1.38,0-1.91c0.53-0.53,1.38-0.53,1.91,0l5.64,5.63l5.74-5.73c0.53-0.53,1.38-0.53,1.91,0c0.53,0.53,0.53,1.38,0,1.91L9.94,7.94l5.66,5.65C16.12,14.12,16.12,14.97,15.6,15.5z"></path>
+													</svg>
+												</span>
+											</div>
+											<div class="field__error" aria-hidden="true" style="display: none;"></div>
+											<!-- <div class="fieldset__note">...and some description below</div> -->
+										</div>
+									</div>
+									<!-- Logo END -->
+
+									<!-- Payment Method dropdown START -->
+									<div class="titled-items-list__item">
+										<div class="fieldset fieldset--select fieldset--no-label" style="width: 100%;">
+											<div class="fieldset__title">Payment Method</div>
+											<div>
+												<div>
+													<div class="field field--medium field--filled">
+														<label class="field__label"></label>
+
+														<!-- Condition dropdown list. Use data attributes as below to save and update the value to/from application storage via functions.js -->
+
+														<select data-name="pm" data-visibility="public" class="field__select" tabindex="1">
+															<option value="both">All</option>
+															<option value="card">Card Only</option>
+															<option value="account">Account Only</option>
+															<option value="ussd">USSD Only</option>
+														</select>
+
+														<div class="field__placeholder"></div>
+														<span class="field-state--success">
+															<svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 26 26" focusable="false">
+																<path d="M5 12l5.02 4.9L21.15 4c.65-.66 1.71-.66 2.36 0 .65.67.65 1.74 0 2.4l-12.3 14.1c-.33.33-.76.5-1.18.5-.43 0-.86-.17-1.18-.5l-6.21-6.1c-.65-.66-.65-1.74 0-2.41.65-.65 1.71-.65 2.36.01z"></path>
+															</svg>
+														</span>
+														<span class="field-state--close">
+															<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 16 16" enable-background="new 0 0 16 16"
+															 xml:space="preserve" focusable="false">
+																<path d="M15.6,15.5c-0.53,0.53-1.38,0.53-1.91,0L8.05,9.87L2.31,15.6c-0.53,0.53-1.38,0.53-1.91,0
+													c-0.53-0.53-0.53-1.38,0-1.9l5.65-5.64L0.4,2.4c-0.53-0.53-0.53-1.38,0-1.91c0.53-0.53,1.38-0.53,1.91,0l5.64,5.63l5.74-5.73
+													c0.53-0.53,1.38-0.53,1.91,0c0.53,0.53,0.53,1.38,0,1.91L9.94,7.94l5.66,5.65C16.12,14.12,16.12,14.97,15.6,15.5z"></path>
+															</svg>
+														</span>
+														<span class="field__arrow">
+															<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" focusable="false">
+																<path d="M7.85 10l5.02 4.9 5.27-4.9c.65-.66 1.71-.66 2.36 0 .65.67.65 1.74 0 2.4l-6.45 6.1c-.33.33-.76.5-1.18.5-.43 0-.86-.17-1.18-.5l-6.21-6.1c-.65-.66-.65-1.74 0-2.41.66-.65 1.72-.65 2.37.01z"></path>
+															</svg>
+														</span>
+													</div>
+												</div>
+												<div class="field__error" aria-hidden="true" style="display: none;"></div>
+											</div>
+											<div class="fieldset__note"></div>
+										</div>
+									</div>
+									<!-- Payment Method dropdown END -->
+
+
+									<!-- Country dropdown START -->
+									<div style="display: none" class="titled-items-list__item">
+										<div class="fieldset fieldset--select fieldset--no-label" style="width: 100%;">
+											<div class="fieldset__title">Country</div>
+											<div>
+												<div>
+													<div class="field field--medium field--filled">
+														<label class="field__label"></label>
+									
+														<!-- Condition dropdown list. Use data attributes as below to save and update the value to/from application storage via functions.js -->
+									
+														<select data-name="country" data-visibility="public" class="field__select" tabindex="1">
+															<option value="NG">Nigeria</option>
+															<option value="KE">Kenya</option>
+															<option value="GH">Ghana</option>
+															<option value="ZA">South Africa</option>
+														</select>
+									
+														<div class="field__placeholder"></div>
+														<span class="field-state--success">
+															<svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 26 26" focusable="false">
+																<path d="M5 12l5.02 4.9L21.15 4c.65-.66 1.71-.66 2.36 0 .65.67.65 1.74 0 2.4l-12.3 14.1c-.33.33-.76.5-1.18.5-.43 0-.86-.17-1.18-.5l-6.21-6.1c-.65-.66-.65-1.74 0-2.41.65-.65 1.71-.65 2.36.01z"></path>
+															</svg>
+														</span>
+														<span class="field-state--close">
+															<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 16 16" enable-background="new 0 0 16 16"
+															 xml:space="preserve" focusable="false">
+																<path d="M15.6,15.5c-0.53,0.53-1.38,0.53-1.91,0L8.05,9.87L2.31,15.6c-0.53,0.53-1.38,0.53-1.91,0
+																						c-0.53-0.53-0.53-1.38,0-1.9l5.65-5.64L0.4,2.4c-0.53-0.53-0.53-1.38,0-1.91c0.53-0.53,1.38-0.53,1.91,0l5.64,5.63l5.74-5.73
+																						c0.53-0.53,1.38-0.53,1.91,0c0.53,0.53,0.53,1.38,0,1.91L9.94,7.94l5.66,5.65C16.12,14.12,16.12,14.97,15.6,15.5z"></path>
+															</svg>
+														</span>
+														<span class="field__arrow">
+															<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" focusable="false">
+																<path d="M7.85 10l5.02 4.9 5.27-4.9c.65-.66 1.71-.66 2.36 0 .65.67.65 1.74 0 2.4l-6.45 6.1c-.33.33-.76.5-1.18.5-.43 0-.86-.17-1.18-.5l-6.21-6.1c-.65-.66-.65-1.74 0-2.41.66-.65 1.72-.65 2.37.01z"></path>
+															</svg>
+														</span>
+													</div>
+												</div>
+												<div class="field__error" aria-hidden="true" style="display: none;"></div>
+											</div>
+											<div class="fieldset__note"></div>
+										</div>
+									</div>
+									<!-- Country dropdown END -->
+
+								</div>
+							</div>
+						</div>
+						<!-- Live rave END -->
+					</div>
+				</div>
+				<!-- APP SETTINGS AREA END -->
+
+
+				<!-- PROMO BLOCK START -->
+				<div class="footer-logo">
+					<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+					 viewBox="0 0 101 28" style="enable-background:new 0 0 101 28;" xml:space="preserve">
+						<style type="text/css">
+							.st0 {
+								fill: #5B6CDE;
+							}
+						</style>
+						<g>
+							<path class="st0" d="M38,7.6L38,7.6C39.5,6,41.5,5,44,5v4.1c-2.6,0.1-4.6,1.1-6,3V23h-4V11.6C34,11.6,38,7.6,38,7.6z M58.9,5.4H63
+			v17.3h-4.1v-1.2c-1.5,1-3.4,1.6-5.2,1.6c-4.9,0-8.6-4-8.6-9s3.9-9,8.6-9c2.1,0,3.9,0.6,5.2,1.6C58.9,6.6,58.9,5.4,58.9,5.4z
+				M54.2,20c1.9,0,3.5-0.6,4.8-2.5v-6C57.8,9.6,56,9,54.2,9c-3,0-5.2,2.6-5.2,5.5C49,17.5,51.1,20,54.2,20z M84,5l-7.7,17h-3.7L65,5
+			h4.4l5.2,11.7L79.8,5H84z M94.7,19.3L90.8,23c-4.1-0.9-6.8-4.5-6.8-8.8C84,8.9,87.5,5,92.8,5c4.7,0,8.1,3.5,8.2,8.8
+			c0,0.6,0,1-0.1,1.3H88c0.4,2.4,2,4.3,5,4.3C93.7,19.5,94.2,19.4,94.7,19.3L94.7,19.3z M92.8,9c-2.8,0-4.3,1.6-4.8,4h9
+			C96.8,10.5,95.3,9,92.8,9z M19.4,11.9c3.6-3,11.1-13.6-0.6-11.7C13.7,1,6.2,5.9,4.7,11.5C3.9,10,3,8.5,2.1,7.1
+			c-1.4-1.9-3-0.4-1.5,1.5C5.1,14.3,8.1,21.1,8.1,28c0.4-3.4-0.2-7.6-1.6-11.6c0.7,0.2,1.4,0.3,2.1,0.3c2.4,3.8,6,7.1,10.2,8.7
+			c3.7,1.5,8.7,0.6,6.7-5.3C24.4,16.8,21.9,13.9,19.4,11.9L19.4,11.9z M20.3,2c6.6-0.7-0.5,7.4-2.8,9c-2.2-1.4-4.8-2.6-7.5-2.3
+			C11.9,6.3,16.5,2.5,20.3,2z M9.6,10c1.9-0.2,3.9,0.8,5.4,1.8c-1.5,0.7-3.2,1.1-4.8,1.2C7.7,13,7.2,10.2,9.6,10z M18.9,22.8
+			c-3-0.9-5.8-3.3-7.9-5.8c1.7-0.3,3.3-1,4.9-1.9c0.6-0.3,1.1-0.7,1.6-1.1c1.8,1.7,3.6,3.9,4.4,6.4C22.6,23.1,20.6,23.3,18.9,22.8
+			L18.9,22.8z" />
+						</g>
+					</svg>
+				</div>
+
 			</div>
-			<span class="danger">*required</span>
 		</div>
+
+		<!-- PROMO BLOCK END -->
+
+
 	</div>
-	<div class="row">
-		<!-- Field to set the logo -->
-		<div class="col">Logo</div>
-		<div class="col">
-			<div class="input-append">
-	 			<input type="text" class="form-control" id="logo" placeholder="https://ecwid.com/logo.png" value="">
-	 			<a class="input-addon"></a>
-			</div>
-		</div>
+
 	</div>
-	<div class="row">
-		<div class="col">Country</div>
-		<div class="col">
-			<select class="form-control" id="country">
-				<option value="NG">Nigeria</option>
-				<option value="KE">Kenya</option>
-				<option value="GH">Ghana</option>
-				<option value="ZA">South Africa</option>
-			</select>
-		</div>
+
 	</div>
-	<div class="row">
-		<div class="col">Payment Method</div>
-		<div class="col">
-			<select class="form-control" id="pm">
-				<option value="both">All</option>
-				<option value="card">Cards Only</option>
-				<option value="account">Account Only</option>
-				<option value="ussd">USSD Only</option>
-			</select>
-		</div>
+
+
+
+	<!-- End contents of third tab -->
+	<script src='raveIframe.js'></script>
+	<script src="https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.2/ecwid-app-ui.min.js"></script>
+
+	<script>
+
+	selected();
+		// Autosave feature for fields. Complimentary JS for the one from SDK above
+
+		(function initFieldset() {
+
+			var elms = document.querySelectorAll('.field__input, .field__select, .field__textarea, .radio');
+			for (var i = 0; i < elms.length; i++) {
+				elms[i].addEventListener('blur', function (e) {
+					checkFieldChange(this);
+					if (this.classList.contains('field__input') || this.classList.contains('field__textarea')) {
+						saveUserData();
+					}
+				}, false);
+
+				elms[i].addEventListener('change', function () {
+					if (this.value) {
+						saveUserData();
+					}
+					else {
+						saveUserData();
+					}
+				}, false);
+
+				elms[i].addEventListener('click', function () {
+					if (this.value) {
+						saveUserData();
+					}
+					else {
+						saveUserData();
+					}
+				}, false);
+			}
+
+		})();
+
+	</script>
+
 	</div>
-	<div class="row" id="delay">
-		<div>Lang Pack</div>
-		<div>
-			<!-- Hidden delay before redirect feature input -->
-			<div>
- 				<input type="number" class="form-control" id="delay" placeholder="5000" value="">
-			</div>
-		</div>
-	</div>
-	<div>
-		<div id="saving">
-		<button class="btn btn-primary btn-large" onClick="saveUserData();" id="save">
-	<span>Save</span>  
-    <div class="loader">
-        <div class="spinner spin-right">
-            <svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <path class="loader-outer" d="M30,60 C46.5685425,60 60,46.5685425 60,30 C60,13.4314575 46.5685425,0 30,0 C13.4314575,0 0,13.4314575 0,30 C0,46.5685425 13.4314575,60 30,60 L30,60 Z"></path>
-                <path class="loader-background" d="M30,56 C44.3594035,56 56,44.3594035 56,30 C56,15.6405965 44.3594035,4 30,4 C15.6405965,4 4,15.6405965 4,30 C4,44.3594035 15.6405965,56 30,56 L30,56 Z" fill="#FFFFFF"></path>
-                <path class="loader-inner" d="M12.0224719,32.0224719 C10.9078652,32.0224719 10,31.1146067 10,30 C10,18.9707865 18.9707865,10 30,10 C31.1146067,10 32.0224719,10.9078652 32.0224719,12.0224719 C32.0224719,13.1370787 31.1146067,14.0449438 30,14.0449438 C21.2,14.0449438 14.0449438,21.2 14.0449438,30 C14.0449438,31.1146067 13.1370787,32.0224719 12.0224719,32.0224719 L12.0224719,32.0224719 Z M30,50 C28.8853933,50 27.9775281,49.0921348 27.9775281,47.9775281 C27.9775281,46.8629213 28.8853933,45.9550562 30,45.9550562 C38.8,45.9550562 45.9550562,38.8 45.9550562,30 C45.9550562,28.8853933 46.8629213,27.9775281 47.9775281,27.9775281 C49.0921348,27.9775281 50,28.8853933 50,30 C50,41.0292135 41.0292135,50 30,50 L30,50 Z" fill="#231F20"></path>
-            </svg>
-        </div>
-    </div>
-</button>
-		</div>
-	</div>
-</div>
+
+	<!-- Main app block END -->
 
 </body>
+
 </html>

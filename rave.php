@@ -36,7 +36,7 @@ session_start();
 
 // Get payload from the POST and process it
   $ecwid_payload = $_POST['data'];
-  $client_secret = "coLPrs9NN5mDgr6xqwUaNAF0PAqBF3Zr"; // this is a dummy value. Please place your app secret key here
+  $client_secret = "coLPrs9NN5mDgr6xqwUaNAF0PAqBF3Zr";
   // header('Content-Type: application/json');
 // The resulting JSON array will be in $result variable
   $data = getEcwidPayload($client_secret, $ecwid_payload);
@@ -45,15 +45,20 @@ session_start();
 
   $merchdata = json_decode($result->merchantAppSettings->public);
 
+  // var_dump($merchdata);
+  // die();
+  // echo $result;
+  // die();
 
-  if (!$merchdata->env) {
-    $secretKey = $merchdata->testSecretKey;
-    $publicKey = $merchdata->testPublicKey;
+
+  if ($merchdata->env == "false") {
+    $secretKey = $result->merchantAppSettings->testSecretKey;
+    $publicKey = $result->merchantAppSettings->testPublicKey;
     $env = "staging";
     $apiLink = "https://ravesandboxapi.flutterwave.com/";
   } else {
-    $secretKey = $merchdata->liveSecretKey;
-    $publicKey = $merchdata->livePublicKey;
+    $secretKey = $result->merchantAppSettings->liveSecretKey;
+    $publicKey = $result->merchantAppSettings->livePublicKey;
     $env = "live";
     $apiLink = "https://api.ravepay.co/";
   }
@@ -69,9 +74,9 @@ session_start();
   }
 
   $total = $result->cart->order->total;
-  $paymentMethod = $merchdata->pm;
-  $country = $merchdata->country;
-  $logo = $merchdata->logo;
+  $paymentMethod = $result->merchantAppSettings->pm;
+  $country = $result->merchantAppSettings->country;
+  $logo = $result->merchantAppSettings->logo;
   $currency = $result->cart->currency;
   $email = $result->cart->order->email;
   $firstName = $name[0];
@@ -110,14 +115,10 @@ session_start();
     <input type="hidden" name="failureurl" value="<?php echo $result->returnUrl; ?>"> <!-- Put your failure url here -->
     <!-- <input type="submit" value="Submit" /> -->
   </form>
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
   <script>
-    $(document).ready(function(){
-      $("#paymentForm").submit();
-  });
+    window.onload = function(){
+      document.forms['paymentForm'].submit();
+    }
   </script>
 </body>
 </html>

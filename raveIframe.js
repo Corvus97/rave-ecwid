@@ -1,233 +1,258 @@
+// Initialize the application
 
-var loadedConfig = {
-	testSecretKey: "",
-	testPublicKey: "",
-	liveSecretKey: "",
-	livePublicKey: "",
-	logo: "",
-	country: "",
-	pm: "",
-	env: "",
-	delay: ""
-};
+EcwidApp.init({
+	app_id: "rave-payments", // use your application namespace
+	autoloadedflag: true,
+	autoheight: true
+});
 
-var initialConfig = {
-	testSecretKey: "",
-	testPublicKey: "",
-	liveSecretKey: "",
-	livePublicKey: "",
-	logo: "",
-	country: "",
-	pm: "",
-	env: false,
-	delay: 0
-};
+var storeData = EcwidApp.getPayload();
+
+var storeId = storeData.store_id;
+var accessToken = storeData.access_token;
+var language = storeData.lang;
+var viewMode = storeData.view_mode;
+
+if (storeData.public_token !== undefined) {
+	var publicToken = storeData.public_token;
+}
+
+if (storeData.app_state !== undefined) {
+	var appState = storeData.app_state;
+}
 
 // For getting store information from Ecwid REST API
-function httpGet(theUrl)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
+function httpGet(theUrl) {
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.open("GET", theUrl, false); // false for synchronous request
+	xmlHttp.send(null);
+	return xmlHttp.responseText;
 }
 
+var theUrl = 'https://app.ecwid.com/api/v3/' + storeId + '/profile?token=' + publicToken;
 
-// Executes when we have a new user install the app. It creates and sets the default data using Ecwid JS SDK and Application storage
-function createUserData() {
+var storeProfile = httpGet(theUrl);
+storeProfile = JSON.parse(storeProfile);
 
-	var theUrl = 'https://app.ecwid.com/api/v3/' + storeId + '/profile?token=' + accessToken;
+// Reads values from HTML page and sends them to application config
+// To fill values successfully, the input, select or textarea elements on a page must have 'data-name' and 'data-visibility' attributes set.
 
-	var storeProfile = httpGet(theUrl);
-	storeProfile = JSON.parse(storeProfile);
+function readValuesFromPage() {
 
-	initialConfig.testSecretKey = "";
-	initialConfig.testPublicKey = "";
-	initialConfig.liveSecretKey = "";
-	initialConfig.livePublicKey = "";
-	initialConfig.logo = "";
-	initialConfig.country = "";
-	initialConfig.pm = "";
-	initialConfig.env = false;
-	initialConfig.delay = 0;
+	var applicationConfig = {
+		public: {},
+		private: {}
+	}
 
-	var data = '{"testSecretKey": "'+ initialConfig.testSecretKey + '", "testPublicKey": "'+ initialConfig.testPublicKey + '", "liveSecretKey": "'+ initialConfig.liveSecretKey + '", "livePublicKey": "'+ initialConfig.livePublicKey + '", "logo": "'+ initialConfig.logo + '", "country": "'+ initialConfig.country + '", "pm": "'+ initialConfig.pm + '", "env": '+ initialConfig.env +', "delay":'+ initialConfig.delay +'}';
+	var allInputs = document.querySelectorAll('input, select, textarea');
 
+	for (i = 0; i < allInputs.length; i++) {
+		var fieldVisibility = allInputs[i].dataset.visibility;
 
-	EcwidApp.setAppPublicConfig(data, function(){
-		console.log('Public config saved!');
-	});
+		if (fieldVisibility !== undefined) {
+			if (allInputs[i].tagName == "INPUT") {
 
-	document.getElementById('testSecretKey').value = initialConfig.testSecretKey;
-	document.getElementById('testPublicKey').value = initialConfig.testPublicKey;
-	document.getElementById('liveSecretKey').value = initialConfig.liveSecretKey;
-	document.getElementById('livePublicKey').value = initialConfig.livePublicKey;
-	document.getElementById('country').value = initialConfig.country;
-	document.getElementById('pm').value = initialConfig.pm;
-	document.getElementById('env').checked = initialConfig.env;
-	document.querySelector("#testPub").style.display = 'block';
-	document.querySelector("#testSec").style.display = 'block';
-	document.querySelector("#test-keys").style.display = 'block';
-	document.querySelector("#livePK").disabled = true;
-	document.querySelector("#liveSK").disabled = true;
-	document.querySelector("#livePub").style.display = 'none';
-	document.querySelector("#liveSec").style.display = 'none';
-	document.querySelector("#live-keys").style.display = 'none';
-	document.getElementById('delay').value = initialConfig.delay;
+				if (allInputs[i].type == 'checkbox' || allInputs[i].type == 'radio') {
+					applicationConfig[fieldVisibility][allInputs[i].dataset.name] = String(allInputs[i].checked);
+				}
+				if (allInputs[i].type == 'text' || allInputs[i].type == 'number' || allInputs[i].type == 'date') {
+					applicationConfig[fieldVisibility][allInputs[i].dataset.name] = allInputs[i].value;
+				}
+			}
+			if (allInputs[i].tagName == "SELECT" || allInputs[i].tagName == "TEXTAREA") {
+				applicationConfig[fieldVisibility][allInputs[i].dataset.name] = allInputs[i].value;
+			}
+		}
+	}
 
+	applicationConfig.public = JSON.stringify(applicationConfig.public);
 
-	// Setting flag to determine that we already created and saved defaults for this user
-	var appExists = {
-		exists: 'yes'
+	return applicationConfig;
+}
+
+// Reads values from provided config and sets them for inputs on the page. 
+// To fill values successfully, the input, select or textarea elements must have 'data-name' and 'data-visibility' attributes set.
+
+function setValuesForPage(applicationConfig) {
+
+	var applicationConfigTemp = {
+		public: {},
+		private: {}
 	};
 
-	EcwidApp.setAppStorage(appExists, function(){
-	  console.log('Data saved!');
+	// for cases when we get existing users' data
+
+	if (applicationConfig.constructor === Array) {
+		for (i = 0; i < applicationConfig.length; i++) {
+			if (applicationConfig[i].key !== 'public') {
+				applicationConfigTemp.private[applicationConfig[i].key] = applicationConfig[i].value;
+			} else {
+				applicationConfigTemp[applicationConfig[i].key] = applicationConfig[i].value;
+			}
+		}
+		applicationConfig = applicationConfigTemp;
+	}
+
+	applicationConfig.public = JSON.parse(applicationConfig.public);
+	var allInputs = document.querySelectorAll('input, select, textarea');
+
+	// Set values from config for input, select, textarea elements
+
+	for (i = 0; i < allInputs.length; i++) {
+		var fieldVisibility = allInputs[i].dataset.visibility;
+
+		if (fieldVisibility !== undefined && applicationConfig[fieldVisibility][allInputs[i].dataset.name] !== undefined) {
+			if (allInputs[i].tagName == "INPUT") {
+
+				if (allInputs[i].type == 'checkbox' || allInputs[i].type == 'radio') {
+					allInputs[i].checked = (applicationConfig[fieldVisibility][allInputs[i].dataset.name] == "true");
+					checkFieldChange(allInputs[i]);
+				}
+				if (allInputs[i].type == 'text' || allInputs[i].type == 'number' || allInputs[i].type == 'date') {
+					allInputs[i].value = applicationConfig[fieldVisibility][allInputs[i].dataset.name];
+					checkFieldChange(allInputs[i]);
+				}
+			}
+			if (allInputs[i].tagName == "SELECT" || allInputs[i].tagName == "TEXTAREA") {
+				allInputs[i].value = applicationConfig[fieldVisibility][allInputs[i].dataset.name];
+				checkFieldChange(allInputs[i]);
+			}
+		}
+	}
+}
+
+// Default settings for new accounts
+
+var initialConfig = {
+	public: {
+		env: "false",
+		pm: "both",
+		logo: "",
+		country: storeProfile.company.countryCode
+	},
+	private: {
+	}
+};
+
+
+initialConfig.public = JSON.stringify(initialConfig.public);
+
+// Executes when we have a new user install the app. It creates and sets the default data using Ecwid JS SDK and Application storage
+
+function createUserData() {
+
+	// Saves data for application storage 
+	EcwidApp.setAppStorage(initialConfig.private, function (value) {
+		console.log('Initial private user preferences saved!');
 	});
 
+	// Saves data for public app config
+	EcwidApp.setAppPublicConfig(initialConfig.public, function (value) {
+		console.log('Initial public user preferences saved!');
+	});
+
+	// Function to prepopulate values of select, input and textarea elements based on default settings for new accounts
+	setValuesForPage(initialConfig);
+
+	selected();
+	setInfo();
+
+	document.querySelector("#body").style.display = 'block';
 }
 
 
+// Executes if we have a user who logs in to the app not the first time. We load their preferences from Application storage with Ecwid JS SDK and display them in the app interface
 
-
-// Executes if we have a user who logs in to the app not the first time. We load their preferences from Application storage with Ecwid JS SDK and display them in the app iterface
 function getUserData() {
 
-	EcwidApp.getAppStorage('public', function(config){
-		config = JSON.parse(config);
+	// Retrieve all keys and values from application storage, including public app config. Set the values for select, input and textarea elements on a page in a callback
 
-		loadedConfig.testSecretKey = config.testSecretKey;
-		loadedConfig.testPublicKey = config.testPublicKey;
-		loadedConfig.liveSecretKey = config.liveSecretKey;
-		loadedConfig.livePublicKey = config.livePublicKey;
-		loadedConfig.logo = config.logo;
-		loadedConfig.country = config.country;
-		loadedConfig.pm = config.pm;
-		loadedConfig.env = config.env;
-		loadedConfig.delay = config.delay;
-
-		// console.log(loadedConfig);
+	EcwidApp.getAppStorage(function (allValues) {
+		setValuesForPage(allValues);
+		selected();
+		setInfo();
+		document.querySelector("#body").style.display = 'block';
 	});
-
-	setTimeout(function(){
-
-		document.getElementById('testSecretKey').value = loadedConfig.testSecretKey;
-		document.getElementById('testSecretKey').disabled = loadedConfig.env;
-		document.getElementById('testPublicKey').value = loadedConfig.testPublicKey;
-		document.getElementById('testPublicKey').disabled = loadedConfig.env;
-		document.getElementById('liveSecretKey').value = loadedConfig.liveSecretKey;
-		document.getElementById('liveSecretKey').disabled = !loadedConfig.env;
-		document.getElementById('livePublicKey').value = loadedConfig.livePublicKey;
-		document.getElementById('livePublicKey').disabled = !loadedConfig.env;
-		document.getElementById('country').value = loadedConfig.country;
-		document.getElementById('pm').value = loadedConfig.pm;
-		document.getElementById('logo').value = loadedConfig.logo;
-		document.getElementById('env').checked = loadedConfig.env;
-		document.getElementById('delay').value = loadedConfig.delay;
-
-		if (loadedConfig.env) {
-			document.querySelector("#testPub").style.display = 'none';
-			document.querySelector("#testSec").style.display = 'none';
-			document.querySelector("#test-keys").style.display = 'none';
-			document.querySelector("#livePub").style.display = 'block';
-			document.querySelector("#liveSec").style.display = 'block';
-			document.querySelector("#live-keys").style.display = 'block';
-		} else {
-			document.querySelector("#testPub").style.display = 'block';
-			document.querySelector("#testSec").style.display = 'block';
-			document.querySelector("#test-keys").style.display = 'block';
-			document.querySelector("#livePub").style.display = 'none';
-			document.querySelector("#liveSec").style.display = 'none';
-			document.querySelector("#live-keys").style.display = 'none';
-		}
-
-	}, 1000);
 
 }
 
+// Set's an alert info if a country or currency not supported by Rave is selected so as to inform the user.
+function setInfo() {
+	var currency = storeProfile.formatsAndUnits.currency;
+	var country = storeProfile.company.countryCode;
+	
+	if (country != "NG" && country != "KE" && country != "US" && country != "GH" && country != "ZA") {
+		document.querySelector("#no-country").style.display = 'block';
+	} else {
+		if (country == "NG" || country == "US") {
+			if (currency != "NGN" && currency != "USD" && currency != "EUR" && currency != "GBP" && currency != "KES") {
+				document.getElementById("supported-currencies").innerHTML="NGN, EUR, USD, GBP, KES";
+				document.querySelector("#currencies-info").style.display = 'block';
+			}
+		} else if (country == "KE") {
+			if (currency != "KES" && currency != "USD") {
+				document.getElementById("supported-currencies").innerHTML = "KES, USD";
+				document.querySelector("#currencies-info").style.display = 'block';
+			}
+		} else if (country == "GH") {
+			if (currency != "GHS" && currency != "USD") {
+				document.getElementById("supported-currencies").innerHTML = "GHS, USD";
+				document.querySelector("#currencies-info").style.display = 'block';
+			}
+		} else if (country == "ZA") {
+			if (currency != "ZAR") {
+				document.getElementById("supported-currencies").innerHTML = "ZAR";
+				document.querySelector("#currencies-info").style.display = 'block';
+			}
+		}
+	}
+}
 
+// Show's the required fields depending on staging or live.
+function selected() {
+	var dropDown = document.querySelector("#staging_env").checked;
 
+	if (dropDown) {
+		document.querySelector("#staging-rave").style.display = 'none';
+		document.querySelector("#staging-link").style.display = 'none';
+		document.querySelector("#live-rave").style.display = 'block';
+		document.querySelector("#live-link").style.display = 'block';
+	} else {
+		document.querySelector("#live-rave").style.display = 'none';
+		document.querySelector("#live-link").style.display = 'none';
+		document.querySelector("#staging-rave").style.display = 'block';
+		document.querySelector("#staging-link").style.display = 'block';
+	}
 
-// Executes when Save button is pressed. Gets all elements' values and saves them to Application storage via Ecwid JS SDK
+	// console.log(storeProfile.formatsAndUnits.currency);
+	
+}
+
+// Executes when we need to save data. Gets all elements' values and saves them to Application storage and public app config via Ecwid JS SDK
+
 function saveUserData() {
 
-	var d = document.getElementById("save");
-	d.className += " btn-loading";
+	var saveData = readValuesFromPage();
 
-	setTimeout(function(){
-		d.className = "btn btn-primary btn-large";
-	},500)
-
-	var saveData = {
-		testSecretKey: loadedConfig.testSecretKey,
-		testPublicKey: loadedConfig.testPublicKey,
-		liveSecretKey: loadedConfig.liveSecretKey,
-		livePublicKey: loadedConfig.livePublicKey,
-		logo: loadedConfig.logo,
-		country: loadedConfig.country,
-		pm: loadedConfig.pm,
-		env: loadedConfig.env,
-		delay: loadedConfig.delay
-	}
-
-	saveData.testSecretKey = document.getElementById('testSecretKey').value;
-	saveData.testPublicKey = document.getElementById('testPublicKey').value;
-	saveData.liveSecretKey = document.getElementById('liveSecretKey').value;
-	saveData.livePublicKey = document.getElementById('livePublicKey').value;
-	saveData.logo = document.getElementById('logo').value;
-	saveData.country = document.getElementById('country').value;
-	saveData.pm = document.getElementById('pm').value;
-	saveData.env = document.getElementById('env').checked;
-
-	if (isNaN(saveData.delay)) {
-		saveData.delay = 0;
-	}
-
-	var dataToSave = '{"name": "Rave", "testSecretKey": "'+ saveData.testSecretKey + '", "testPublicKey": "'+ saveData.testPublicKey + '", "liveSecretKey": "'+ saveData.liveSecretKey + '", "livePublicKey": "'+ saveData.livePublicKey + '", "logo": "'+ saveData.logo + '", "country": "'+ saveData.country + '", "pm": "'+ saveData.pm + '", "env": '+ saveData.env +', "delay":'+ saveData.delay +'}';
-
-			var env = document.getElementById("env").checked;
-			var testPublicKey = document.getElementById("testPublicKey").value;
-			var testSecretKey = document.getElementById("testSecretKey").value;
-			var livePublicKey = document.getElementById("livePublicKey").value;
-			var liveSecretKey = document.getElementById("liveSecretKey").value;
-			var logo = document.getElementById("logo").value;
-			var country = document.getElementById("country").value;
-			var pm = document.getElementById("pm").value;
-			
-			var data = {
-				environment: env,
-				testPublicKey,
-				testSecretKey,
-				livePublicKey,
-				liveSecretKey,
-				logo,
-				country,
-				pm
-			};
-
-			console.log(env);
-
-			EcwidApp.setAppStorage(data, function () {
-				// console.log('Public config saved!');
-			});
-			
-		
-	EcwidApp.setAppPublicConfig(dataToSave, function(){
-		console.log('Public config saved!');
+	EcwidApp.setAppStorage(saveData.private, function (savedData) {
+		console.log('Private preferences saved!');
 	});
+
+	EcwidApp.setAppPublicConfig(saveData.public, function (savedData) {
+		console.log('Public preferences saved!');
+	})
 
 }
 
+
 // Main app function to determine if the user is new or just logs into the app
-EcwidApp.getAppStorage('exists', function(value){
 
-  if (value != null) {
-  		getUserData();
-  }
-  else {
-  		createUserData();
-  }
+EcwidApp.getAppStorage('pm', function (value) {
+	
+	if (value != null) {
+		getUserData();
+	}
+	else {
+		createUserData();
+	}
 })
-
-
-

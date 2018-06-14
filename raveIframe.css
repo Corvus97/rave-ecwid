@@ -64,6 +64,7 @@ div#appContent {
 }
 
 #no-country,
-#currencies-info {
+#currencies-info,
+#paymentMethod {
 	display: none;
 }

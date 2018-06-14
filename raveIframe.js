@@ -128,9 +128,21 @@ var initialConfig = {
 		env: "false",
 		pm: "both",
 		logo: "",
+		testPublicKey:"",
+		testSecretKey:"",
+		livePublicKey:"",
+		liveSecretKey:"",
 		country: storeProfile.company.countryCode
 	},
 	private: {
+		env: "false",
+		pm: "both",
+		logo: "",
+		testPublicKey: "",
+		testSecretKey: "",
+		livePublicKey: "",
+		liveSecretKey: "",
+		country: storeProfile.company.countryCode
 	}
 };
 
@@ -156,10 +168,29 @@ function createUserData() {
 
 	selected();
 	setInfo();
+	loadReq();
 
 	document.querySelector("#body").style.display = 'block';
 }
 
+//Checks when to put the required text
+function loadReq() {
+	if (document.querySelector('#liveSecretKey').value.length > 7) {
+		document.querySelector("#liveSecretKeyReq").style.display = 'none';
+	}
+
+	if (document.querySelector('#testSecretKey').value.length > 7) {
+		document.querySelector("#testSecretKeyReq").style.display = 'none';
+	}
+
+	if (document.querySelector('#livePublicKey').value.length > 7) {
+		document.querySelector("#livePublicKeyReq").style.display = 'none';
+	}
+
+	if (document.querySelector('#testPublicKey').value.length > 7) {
+		document.querySelector("#testPublicKeyReq").style.display = 'none';
+	}
+}
 
 // Executes if we have a user who logs in to the app not the first time. We load their preferences from Application storage with Ecwid JS SDK and display them in the app interface
 
@@ -171,6 +202,7 @@ function getUserData() {
 		setValuesForPage(allValues);
 		selected();
 		setInfo();
+		loadReq();
 		document.querySelector("#body").style.display = 'block';
 	});
 
@@ -180,6 +212,13 @@ function getUserData() {
 function setInfo() {
 	var currency = storeProfile.formatsAndUnits.currency;
 	var country = storeProfile.company.countryCode;
+
+	if (currency == "NGN") {
+		document.querySelector("#paymentMethod").style.display = 'block';
+	} else {
+		document.getElementById('paymentMethodList').value = "both";
+		saveUserData();
+	}
 	
 	if (country != "NG" && country != "KE" && country != "US" && country != "GH" && country != "ZA") {
 		document.querySelector("#no-country").style.display = 'block';

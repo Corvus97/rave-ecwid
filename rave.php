@@ -43,15 +43,11 @@ session_start();
   $json_string = json_encode($data, JSON_PRETTY_PRINT);
   $result = json_decode(json_encode($data), false);
 
-  $merchdata = json_decode($result->merchantAppSettings->public);
-
-  // var_dump($merchdata);
-  // die();
-  // echo $result;
+  // echo $json_string;
   // die();
 
 
-  if ($merchdata->env == "false") {
+  if ($result->merchantAppSettings->env == "false") {
     $secretKey = $result->merchantAppSettings->testSecretKey;
     $publicKey = $result->merchantAppSettings->testPublicKey;
     $env = "staging";
@@ -82,6 +78,10 @@ session_start();
   $firstName = $name[0];
   $phone = $result->cart->order->billingPerson->phone;
   $ref = $result->cart->order->referenceTransactionId;
+
+  if ($currency != "NGN") {
+    $paymentMethod = "both";
+  }
 
   $_SESSION["secretKey"] = $secretKey;
   $_SESSION["storeId"] = $result->storeId;

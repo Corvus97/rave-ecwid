@@ -111,7 +111,7 @@ session_start();
     <input type="hidden" name="env" value="<?php echo $env; ?>"> <!-- live or staging -->
     <input type="hidden" name="publicKey" value="<?php echo $publicKey; ?>"> <!-- Put your public key here -->
     <input type="hidden" name="secretKey" value="<?php echo $secretKey; ?>"> <!-- Put your secret key here -->
-    <input type="hidden" name="successurl" value="https://rave.deatt.com/verify.php"> <!-- Put your success url here -->
+    <input type="hidden" name="successurl" value="https://rave-ecwid.azurewebsites.net/verify.php"> <!-- Put your success url here -->
     <input type="hidden" name="failureurl" value="<?php echo $result->returnUrl; ?>"> <!-- Put your failure url here -->
     <!-- <input type="submit" value="Submit" /> -->
   </form>

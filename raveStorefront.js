@@ -34,7 +34,7 @@ Ecwid.OnAPILoaded.add(function () {
     // Set your custom icons or use your own URLs to icons here
 
     var iconsSrcList = [
-        'https://rave.deatt.com/rave.png'
+        'https://rave-ecwid.azurewebsites.net/rave.png'
     ]
 
     // Function to process current payment in the list

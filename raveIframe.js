@@ -224,8 +224,8 @@ function setInfo() {
 		document.querySelector("#no-country").style.display = 'block';
 	} else {
 		if (country == "NG" || country == "US") {
-			if (currency != "NGN" && currency != "USD" && currency != "EUR" && currency != "GBP" && currency != "KES") {
-				document.getElementById("supported-currencies").innerHTML="NGN, EUR, USD, GBP, KES";
+			if (currency != "NGN" && currency != "USD" && currency != "EUR" && currency != "GBP" && currency != "KES" && currency != "UGX" && currency != "RWF" && currency != "TZS") {
+				document.getElementById("supported-currencies").innerHTML="NGN, EUR, USD, GBP, KES, UGX, RWF, TZS";
 				document.querySelector("#currencies-info").style.display = 'block';
 			}
 		} else if (country == "KE") {

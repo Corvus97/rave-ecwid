@@ -71,7 +71,7 @@ session_start();
 
   $total = $result->cart->order->total;
   $paymentMethod = $result->merchantAppSettings->pm;
-  $country = $result->merchantAppSettings->country;
+  // $country = $result->merchantAppSettings->country;
   $logo = $result->merchantAppSettings->logo;
   $currency = $result->cart->currency;
   $email = $result->cart->order->email;
@@ -81,6 +81,35 @@ session_start();
 
   if ($currency != "NGN") {
     $paymentMethod = "both";
+  }
+
+  # Using switch statement to set the country based on currency set on ecwid
+  switch ($currency) {
+    case 'KES':
+      # code...
+      $country = 'KE';
+      break;
+    case 'GHS':
+      # code...
+      $country = 'GH';
+      break;
+    case 'ZAR':
+      # code...
+      $country = 'ZA';
+      break;
+    case 'TZS':
+      # code...
+      $country = 'TZ';
+      break;
+    case 'ZMK':
+      # Setting Zambia currency to ZMW since ecwid sets it as ZMK
+      $currency = 'ZMW';
+      $country = 'NG';
+      break;
+    default:
+      # code...
+      $country = 'NG';
+      break;
   }
 
   $_SESSION["secretKey"] = $secretKey;
@@ -114,6 +143,7 @@ session_start();
     <input type="hidden" name="successurl" value="https://rave-ecwid.azurewebsites.net/verify.php"> <!-- Put your success url here -->
     <input type="hidden" name="failureurl" value="<?php echo $result->returnUrl; ?>"> <!-- Put your failure url here -->
     <!-- <input type="submit" value="Submit" /> -->
+  
   </form>
   <script>
     window.onload = function(){

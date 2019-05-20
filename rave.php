@@ -120,6 +120,10 @@ session_start();
   $_SESSION["returnUrl"] = $result->returnUrl;
   $_SESSION["apiURL"] = $apiLink;
 
+  // Final Reference Variable for updating order in webhook.php
+
+  $final_reference = $ref."_".$_SESSION["storeId"]."_".$_SESSION["token"];
+
 
   ?>
 <!DOCTYPE html>
@@ -136,7 +140,7 @@ session_start();
     <input type="hidden" name="firstname" value="<?php echo $firstName; ?>" /> <!-- Replace the value with your customer firstname (optional) -->
     <input type="hidden" name="lastname"value="<?php echo $lastName; ?>" /> <!-- Replace the value with your customer lastname (optional) -->
     <input type="hidden" name="phonenumber" value="<?php echo $phone; ?>" /> <!-- Replace the value with your customer phonenumber (optional if email is passes) -->
-    <input type="hidden" name="ref" value="<?php echo $ref; ?>" />
+    <input type="hidden" name="ref" value="<?php echo $final_reference; ?>" />
     <input type="hidden" name="env" value="<?php echo $env; ?>"> <!-- live or staging -->
     <input type="hidden" name="publicKey" value="<?php echo $publicKey; ?>"> <!-- Put your public key here -->
     <input type="hidden" name="secretKey" value="<?php echo $secretKey; ?>"> <!-- Put your secret key here -->

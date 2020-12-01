@@ -21,11 +21,11 @@ sleep(10);
 http_response_code(200); // PHP 5.4 or greater
 // parse event (which is json string) as object
 // Give value to your customer but don't give any output
-// Remember that this is a call from rave's servers and 
+// Remember that this is a call from rave's servers and
 // Your customer is not seeing the response here at all
 $response = json_decode($body);
 if ($response->status == 'successful') {
-    $ref_array = explode("-", $response->txRef);// split the reference into orderID, reference number and token
+    $ref_array = explode("-", $response->tx_ref);// split the reference into orderID, reference number and token
     $url = "https://app.ecwid.com/api/v3/". $ref_array[1] ."/orders/". $ref_array[0] ."?token=". $ref_array[2];
 
     $data = array('paymentStatus' => 'PAID');
